@@ -1,6 +1,118 @@
 # Study Tracker Project Log
 
+## Project Vision
+
+Build a Kanji Learning and Review Tool.
+
+Purpose:
+- Store personal kanji study notes
+- Group kanji by themes and study days
+- Review kanji through random practice
+- Track learning progress over time
+
+Example Categories/study_day:
+- Day 1: Change / System / Flow
+- Day 2: Situation / Increase / Continuation
+
+---
+
+## Roadmap
+
+### Phase 1: Database Foundation
+
+
+- [x] Define database fields
+- [x] Create kanji table
+- [ ] Remove temporary test table
+- [x] Enable RLS
+- [x] Add policy
+- [x] Insert first kanji
+- [x] Verify with SELECT *
+- [ ] Connect Next.js to kanji table
+
+### Phase 2: Kanji Management (CRUD)
+
+- [ ] Add kanji form
+- [ ] View kanji list
+- [ ] Edit kanji
+- [ ] Delete kanji
+
+### Phase 3: Study Mode
+
+- [ ] Random kanji selection
+- [ ] Show answer button
+- [ ] Next button
+- [ ] Category filtering
+
+### Phase 4: Progress Tracking
+
+- [ ] Track review count
+- [ ] Track correct answers
+- [ ] Last reviewed date
+- [ ] Basic statistics
+
+### Phase 5: Authentication
+
+- [ ] User login
+- [ ] Personal kanji collections
+- [ ] User-specific progress
+
+---
+
+
+## 2026-06-07 - Kanji Table Created
+
+### Completed
+
+- Created the kanji table in Supabase
+- Added fields:
+  - id
+  - kanji
+  - meaning
+  - onyomi
+  - kunyomi
+  - examples
+  - study_day
+  - created_at
+- Enabled Row Level Security
+- Created a temporary learning policy
+- Inserted first kanji entry using SQL
+- Updated Next.js application to read from the kanji table
+- Displayed kanji information in the browser
+
+### Learned
+
+- How to create database tables using SQL
+- How Supabase policies work
+- How React renders arrays using map()
+- How TypeScript types describe database records
+- How JSX tags must be properly opened and closed
+
+### Problems Solved
+
+- Fixed JSX closing tag errors
+- Updated application from test data to real kanji data
+- Adjusted schema to use study_day INTEGER instead of category text
+
+### Current Status
+
+The application successfully displays kanji records stored in Supabase.
+
+### Next Goal
+
+Create a form that allows kanji entries to be added from the web application instead of manually using SQL.
+
 ## 2026-06-05 - Milestone: Supabase + Vercel Deployment Successful
+
+Completed:
+- Next.js setup
+- Supabase connection
+- GitHub repository
+- Vercel deployment
+- Database read test
+
+Current Version:
+- Displays "Hello from Supabase"
 
 Deployment URL:
 https://study-tracker-lime-theta.vercel.app/
@@ -68,3 +180,57 @@ I also gained a better understanding of environment variables, GitHub repositori
 ### Next Goal
 
 Add a form that allows users to submit and save data into the database.
+
+## Project Vision
+
+Build a Kanji Learning and Review Tool.
+
+Purpose:
+- Store personal kanji study notes
+- Group kanji by themes and study days
+- Review kanji through random practice
+- Track learning progress over time
+
+Example Categories:
+- Day 1: Change / System / Flow
+- Day 2: Situation / Increase / Continuation
+
+---
+
+## Roadmap
+
+### Phase 1: Database Foundation
+
+
+- [x] Define database fields
+- [x] Create kanji table
+- [ ] Insert first kanji
+- [ ] Connect app to kanji table
+- [ ] Remove temporary test table
+
+### Phase 2: Kanji Management (CRUD)
+
+- [ ] Add kanji form
+- [ ] View kanji list
+- [ ] Edit kanji
+- [ ] Delete kanji
+
+### Phase 3: Study Mode
+
+- [ ] Random kanji selection
+- [ ] Show answer button
+- [ ] Next button
+- [ ] Category filtering
+
+### Phase 4: Progress Tracking
+
+- [ ] Track review count
+- [ ] Track correct answers
+- [ ] Last reviewed date
+- [ ] Basic statistics
+
+### Phase 5: Authentication
+
+- [ ] User login
+- [ ] Personal kanji collections
+- [ ] User-specific progress
