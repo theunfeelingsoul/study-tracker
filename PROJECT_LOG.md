@@ -23,17 +23,17 @@ Example Categories/study_day:
 
 - [x] Define database fields
 - [x] Create kanji table
-- [ ] Remove temporary test table
+- [x] Remove temporary test table
 - [x] Enable RLS
 - [x] Add policy
 - [x] Insert first kanji
 - [x] Verify with SELECT *
-- [ ] Connect Next.js to kanji table
+- [x] Connect Next.js to kanji table
 
 ### Phase 2: Kanji Management (CRUD)
 
-- [ ] Add kanji form
-- [ ] View kanji list
+- [x] Add kanji form
+- [x] View kanji list
 - [ ] Edit kanji
 - [ ] Delete kanji
 
@@ -59,6 +59,64 @@ Example Categories/study_day:
 
 ---
 
+
+## 2026-06-10 - Create Kanji Feature Completed
+
+### Completed
+
+- Built a React form for adding kanji
+- Added state variables for form inputs
+- Connected form to Supabase
+- Implemented INSERT operation
+- Added automatic list refresh after saving
+- Confirmed new records appear immediately without page reload
+
+### Learned
+
+- React form state with useState()
+- Event handlers with onChange
+- Button click handlers with onClick
+- Async functions and await
+- Supabase insert()
+- Difference between objects and arrays in TypeScript
+- Generic types such as useState<Row[]>()
+
+### CRUD Progress
+
+- Create ✅
+- Read ✅
+- Update ⏳
+- Delete ⏳
+
+### Current Status
+
+Users can add new kanji entries through the web application and immediately see them displayed from the database.
+
+Kanji Trainer
+
+Database
+├── Create ✅
+├── Read ✅
+├── Update ⏳
+└── Delete ⏳
+
+Study Features
+├── Day Selection ⏳
+├── Random Kanji ⏳
+├── Show Answer ⏳
+└── Next Kanji ⏳
+
+### Next Goal
+
+Transform the kanji list into a study/review tool with "Show Answer" and "Next Kanji" functionality.
+Phase 3 — Study Day Filter
+
+The next tasks are:
+1. Select Day 1 / Day 2
+2. Filter kanji by study_day
+3. Show one random kanji
+4. Add Show Answer button
+5. Add Next Kanji button
 
 ## 2026-06-07 - Kanji Table Created
 
