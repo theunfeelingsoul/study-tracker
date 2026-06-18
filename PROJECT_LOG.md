@@ -39,17 +39,20 @@ Example Categories/study_day:
 
 ### Phase 3: Study Mode
 
-- [ ] Random kanji selection
-- [ ] Show answer button
-- [ ] Next button
-- [ ] Category filtering
+- [x] Day selector
+- [x] All Days selector
+- [x] Show one kanji
+- [x] Show Answer button
+- [x] Next button
+- [x] Tailwind css cleanup
 
-### Phase 4: Progress Tracking
+### Phase 4: Smart Review
 
-- [ ] Track review count
-- [ ] Track correct answers
-- [ ] Last reviewed date
-- [ ] Basic statistics
+- [ ] Easy button
+- [ ] Difficult button
+- [x] Review count
+- [x] Difficulty score
+- [ ] Prioritize difficult kanji
 
 ### Phase 5: Authentication
 
@@ -58,6 +61,60 @@ Example Categories/study_day:
 - [ ] User-specific progress
 
 ---
+
+## 2026-06-18 - Smart Review Foundation Started
+
+### Completed
+
+* Added `review_count` field to kanji records
+* Added `difficulty_score` field to kanji records
+* Updated TypeScript `Row` type to match database schema
+* Planned Easy / Difficult review workflow
+* Designed adaptive review logic
+* Implemented `easyKanji()` function structure
+* Learned how Supabase `update()` works
+* Learned how `.eq()` is used as a SQL `WHERE` clause
+* Connected review actions to specific kanji using `currentKanji.id`
+
+### Learned
+
+* Difference between `currentIndex` and database `id`
+* Why React uses array indexes for display but database records use primary keys
+* JavaScript `let` vs `const`
+* JavaScript object syntax:
+
+  * `field: value`
+  * commas between properties
+* How CRUD maps to Supabase:
+
+  * Create → `insert()`
+  * Read → `select()`
+  * Update → `update()`
+  * Delete → `delete()`
+
+### Current Status
+
+Study Mode is functional:
+
+* Day filtering ✅
+* Show Answer ✅
+* Next Kanji ✅
+
+Smart Review is partially implemented:
+
+* Easy review logic ⏳
+* Difficult review logic ⏳
+* Database review tracking ⏳
+
+### Next Goal
+
+Complete the `easyKanji()` implementation and create `difficultKanji()`.
+
+After both buttons work:
+
+* Increment review counts
+* Track difficulty scores
+* Begin adaptive kanji review system
 
 
 ## 2026-06-10 - Create Kanji Feature Completed
@@ -255,40 +312,4 @@ Example Categories:
 
 ---
 
-## Roadmap
 
-### Phase 1: Database Foundation
-
-
-- [x] Define database fields
-- [x] Create kanji table
-- [ ] Insert first kanji
-- [ ] Connect app to kanji table
-- [ ] Remove temporary test table
-
-### Phase 2: Kanji Management (CRUD)
-
-- [ ] Add kanji form
-- [ ] View kanji list
-- [ ] Edit kanji
-- [ ] Delete kanji
-
-### Phase 3: Study Mode
-
-- [ ] Random kanji selection
-- [ ] Show answer button
-- [ ] Next button
-- [ ] Category filtering
-
-### Phase 4: Progress Tracking
-
-- [ ] Track review count
-- [ ] Track correct answers
-- [ ] Last reviewed date
-- [ ] Basic statistics
-
-### Phase 5: Authentication
-
-- [ ] User login
-- [ ] Personal kanji collections
-- [ ] User-specific progress
