@@ -15,25 +15,21 @@ type Row = {
   review_count: number;
 };
 
-const DifficultKanji = ()=>{
-
-  currentKanji;
-
-};
 
 
 export default function Home() {
   const [data, setData] = useState<Row[]>([]);
-
   const [selectedDay, setSelectedDay] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0); //array positions stored in react
   const [showAnswer, setShowAnswer] = useState(false);
 
-
+  // Filter the kanji list based on the selected study day.
+  // If "All Days" is selected (0), use every kanji.
+  // Otherwise, create a new array containing only kanji from the chosen day.
   const filteredData =
-  selectedDay === 0
-    ? data
-    : data.filter((row) => row.study_day === selectedDay);
+    selectedDay === 0
+      ? data
+      : data.filter((row) => row.study_day === selectedDay);
 
     const currentKanji = filteredData[currentIndex];
 
@@ -57,10 +53,10 @@ export default function Home() {
 
   };
 
-// Marks a kanji as easy:
-// +1 review count
-// -1 difficulty score (minimum 0)
-// Updates Supabase and moves to the next card
+  // Marks a kanji as easy:
+  // +1 review count
+  // -1 difficulty score (minimum 0)
+  // Updates Supabase and moves to the next card
   const easyKanji = async () => {
 
     const newReviewCount = currentKanji.review_count + 1;
@@ -85,41 +81,76 @@ export default function Home() {
 
   };
 
-    const fetchData = async () => {
-      const { data, error } = await supabase.from("kanji").select("*");
+  // Marks a kanji as difficult.
+  // TODO:
+  // +1 review count
+  // +1 difficulty score (no maximum)
+  // Update Supabase
+  // Refresh data
+  // Show next kanji
+  const difficultKanji = async () => {
 
-      if (error) {
-        console.error(error);
-      } else {
-        setData(data);
-      }
-    };
+    // and +1 to the review_cunt field or the current kanji being displayed
+    const newReviewCount = currentKanji.review_count +1;
+
+    const newDifficultyScore = currentKanji.difficulty_score+1;
+
+
+
+    const { data, error } = await supabase
+        .from("kanji")
+        .update({
+          difficulty_score:newDifficultyScore,
+          review_count:newReviewCount
+        })
+        .eq("id",currentKanji.id);
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+    await fetchData();
+
+    nextKanji();
+  };
+
+
+  const fetchData = async () => {
+    const { data, error } = await supabase.from("kanji").select("*");
+
+    if (error) {
+      console.error(error);
+    } else {
+      setData(data);
+    }
+  };
   useEffect(() => {
 
     fetchData();
   }, []);
 
   const saveKanji = async () => {
-  const { error } = await supabase.from("kanji").insert([
-    {
-      kanji,
-      meaning,
-      onyomi,
-      kunyomi,
-      examples,
-      study_day,
-    },
-  ]);
+    const { error } = await supabase.from("kanji").insert([
+      {
+        kanji,
+        meaning,
+        onyomi,
+        kunyomi,
+        examples,
+        study_day,
+      },
+    ]);
 
-  if (error) {
-    console.error(error);
-    alert("Failed to save kanji");
-    return;
-  }
+    if (error) {
+      console.error(error);
+      alert("Failed to save kanji");
+      return;
+    }
 
-  alert("Kanji saved!");
-  await fetchData();
-};
+    alert("Kanji saved!");
+    await fetchData();
+  };
 
   return (
     <main>

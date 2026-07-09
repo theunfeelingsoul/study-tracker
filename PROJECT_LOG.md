@@ -48,8 +48,8 @@ Example Categories/study_day:
 
 ### Phase 4: Smart Review
 
-- [ ] Easy button
-- [ ] Difficult button
+- [x] Easy button logic
+- [x] Difficult button logic
 - [x] Review count
 - [x] Difficulty score
 - [ ] Prioritize difficult kanji
@@ -61,6 +61,65 @@ Example Categories/study_day:
 - [ ] User-specific progress
 
 ---
+
+## 2026-07-09 - Smart Review Logic Implemented
+
+### Completed
+
+* Added `review_count` field to kanji records
+* Added `difficulty_score` field to kanji records
+* Updated the TypeScript `Row` type to match the database schema
+* Implemented `easyKanji()` function
+* Implemented `difficultKanji()` function
+* Used `currentKanji.id` to update the correct database record
+* Learned to use Supabase `update()` with `.eq()`
+* Refreshes study data after each review
+* Automatically advances to the next kanji after recording a review
+
+### Learned
+
+* Difference between React's `currentIndex` and the database primary key `id`
+* Why React uses array indexes for displaying data but database updates use primary keys
+* How `let` differs from `const`
+* How JavaScript object syntax (`field: value`) works
+* How Supabase `update()` performs database updates
+* How `.eq()` works like a SQL `WHERE` clause
+* Basic error handling after database operations
+* React's render cycle and how derived values like `filteredData` are recalculated on each render
+
+### Current Status
+
+Study Mode
+
+* Day filtering ✅
+* Show one kanji ✅
+* Show Answer ✅
+* Next Kanji ✅
+
+Smart Review
+
+* Easy review logic ✅
+* Difficult review logic ✅
+* Review count tracking ✅
+* Difficulty score tracking ✅
+* Adaptive review algorithm ⏳
+
+### Reflection
+
+Today I wrote the core logic for both `easyKanji()` and `difficultKanji()` almost entirely on my own.
+
+The biggest breakthrough was understanding the complete update flow:
+
+Read current values → Calculate new values → Update Supabase → Refresh data → Display the next kanji.
+
+I also gained a much better understanding of when React recalculates values during rendering and why database updates rely on the primary key rather than the current array index.
+
+### Next Goal
+
+Connect the Easy and Difficult buttons to the interface.
+
+Then begin implementing adaptive review so kanji with higher difficulty scores appear more frequently during study sessions.
+
 
 ## 2026-06-18 - Smart Review Foundation Started
 
