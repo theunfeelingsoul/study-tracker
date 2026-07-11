@@ -31,27 +31,66 @@ export default function Home() {
       ? data
       : data.filter((row) => row.study_day === selectedDay);
 
-    const currentKanji = filteredData[currentIndex];
+     
+     
 
-  const [kanji, setKanji] = useState("");
-  const [meaning, setMeaning] = useState("");
-  const [onyomi, setOnyomi] = useState("");
-  const [kunyomi, setKunyomi] = useState("");
-  const [examples, setExamples] = useState("");
-  const [study_day, setStudyDay] = useState(1);
+  const currentKanji = filteredData[currentIndex];
 
-  // Next Kanji
+const [kanji, setKanji] = useState("");
+const [meaning, setMeaning] = useState("");
+const [onyomi, setOnyomi] = useState("");
+const [kunyomi, setKunyomi] = useState("");
+const [examples, setExamples] = useState("");
+const [study_day, setStudyDay] = useState(1);
+
+
+
+
+  // Moves to the next kanji
+  // Picks a random kanji based on a weighted array
   const nextKanji = () =>{
 
-    if ((filteredData.length-1)==currentIndex) {
-      setCurrentIndex(0)
-    } else{
-      
-      setCurrentIndex(currentIndex+1);
-    }
-      setShowAnswer(false)
+    //1.
+    // initialize weighted array
+    // Row[] is a typescript way saying only accept a Row kind of input
+    const weighted: Row[] = [];
 
+    //2.
+    // create the weigted array
+    filteredData.forEach((row)=>{
+      for (let i = 0; i  <= row.difficulty_score; i++) {
+            weighted.push(row); // push entire  of selected kanji 
+      }; // end for
+    }); // end forEach
+
+   // Only pick a new card if there is more than one choice.
+    if (weighted.length > 1) {
+      // do while loop
+      let filteredIndex = currentIndex; // set the condition to stop the loop
+      let weightedIndex = 0;
+      do {
+        // get a random index from the weighted array
+        weightedIndex = Math.floor(Math.random() * weighted.length);
+        
+        const selectedRow = weighted[weightedIndex];
+        filteredData.forEach((row,index)=>{
+
+          if (row.id === selectedRow.id) {
+              filteredIndex = index;
+          }
+
+        
+        });
+
+      } while (filteredIndex === currentIndex);
+
+      setCurrentIndex(filteredIndex);
+    }
+console.log(weighted);
+    setShowAnswer(false);
   };
+
+  
 
   // Marks a kanji as easy:
   // +1 review count
@@ -195,8 +234,25 @@ export default function Home() {
       <p><strong>Onyomi:</strong> {currentKanji.onyomi}</p>
       <p><strong>Kunyomi:</strong> {currentKanji.kunyomi}</p>
       <p><strong>Examples:</strong> {currentKanji.examples}</p>
+
+      <p>Reviews : {currentKanji.review_count}</p>
+  <p>Difficulty : {currentKanji.difficulty_score}</p>
+
+  <br/> <button className="border rounded px-4 py-2 m-2" onClick=
+  {easyKanji}>
+   --Easy--
+  </button>
+    {/*<br/>*/}
+  <button className="border rounded px-4 py-2 m-2" onClick={difficultKanji}>
+    --Difficult--
+  </button>
+  <br/>
     </div>
+
+
   )}
+
+  
   ======================================================
         <div className="flex flex-col items-center">
         <h2 className="text-2xl font-semibold">Add New Kanji</h2>

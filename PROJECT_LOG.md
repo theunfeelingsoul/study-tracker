@@ -62,6 +62,120 @@ Example Categories/study_day:
 
 ---
 
+2026-07-11 - Adaptive Weighted Review Algorithm
+Completed
+Implemented a weighted review algorithm prototype.
+Built a temporary weighted array based on each kanji's difficulty_score.
+Higher difficulty kanji are inserted into the weighted array multiple times, increasing their probability of being selected.
+Converted a randomly selected weighted entry back into the correct index of filteredData so it could be displayed by React.
+Confirmed that review_count and difficulty_score update correctly after pressing Easy and Difficult.
+Verified through console logging that the weighted array changes dynamically as difficulty scores change.
+Learned
+JavaScript
+The difference between expressions and statements.
+Why map() expects an expression while for loops are statements.
+The difference between map() and forEach().
+Why JavaScript uses callback functions instead of PHP-style foreach syntax.
+How push() stores entire objects rather than just individual properties.
+TypeScript
+Why an empty array can be declared as:
+const weighted: Row[] = [];
+How Row[] tells TypeScript what type of objects the array will eventually contain even though it starts empty.
+Algorithms
+How weighted random selection works by duplicating entries in an array.
+Why a kanji with
+difficulty_score = 0
+
+appears once,
+
+difficulty_score = 1
+
+appears twice,
+
+difficulty_score = 3
+
+appears four times,
+
+making difficult kanji statistically more likely to appear.
+
+Why selecting from the weighted array does not give the correct React index directly.
+How to convert the selected weighted row back into its position inside filteredData.
+Current Status
+
+Study Mode
+
+Day filtering ✅
+Random kanji ✅
+No immediate duplicate cards ✅
+Show Answer ✅
+Review statistics displayed ✅
+
+Smart Review
+
+Easy button ✅
+Difficult button ✅
+Review count tracking ✅
+Difficulty score tracking ✅
+Weighted review algorithm (prototype) ✅
+Final testing and cleanup ⏳
+Reflection
+
+Today's biggest achievement was thinking through an algorithm instead of simply writing code.
+
+I designed the weighted review approach myself: rather than calculating probabilities mathematically, I created a weighted array where difficult kanji appear multiple times. This makes the random selection naturally favour kanji that need more practice while still allowing easier kanji to appear occasionally.
+
+I also became much more comfortable reading JavaScript syntax and understanding how React uses array indexes. One important breakthrough was realizing that the weighted array and filteredData use different indexes, so the selected weighted item must be mapped back to its original position before updating the UI.
+
+Next Goal
+Thoroughly test the weighted review algorithm with larger datasets.
+Refactor nextKanji() to make the code cleaner and more efficient.
+Begin implementing Edit and Delete functionality to complete the CRUD features.
+
+##2026-07-10 - Random Study Mode Design
+###Completed
+Replaced sequential navigation design with a random kanji selection algorithm
+Prevented the same kanji from appearing twice in a row during study sessions
+Planned the integration of Easy and Difficult review buttons into the study interface
+Reviewed the flow of the React component from state initialization through rendering
+Improved comments throughout the code to better document study mode logic
+Learned
+How Math.random() and Math.floor() generate random array indexes
+Why the application should avoid selecting the current kanji again immediately
+The difference between data.length (all kanji loaded from Supabase) and filteredData.length (only the currently selected study set)
+How filteredData is recreated on every React render rather than being stored in state
+Why useEffect() is responsible for loading data from Supabase while derived values are recalculated automatically during rendering
+Current Status
+
+###Study Mode
+
+Day filtering ✅
+Random kanji selection ✅
+No immediate duplicate cards ✅
+Show Answer ✅
+Next Kanji ✅
+
+###Smart Review
+
+Easy review logic ✅
+Difficult review logic ✅
+Review count tracking ✅
+Difficulty score tracking ✅
+Adaptive review algorithm ⏳
+Reflection
+
+Today's biggest achievement wasn't writing a large amount of code—it was becoming more comfortable thinking like a JavaScript and React developer.
+
+Instead of copying solutions, I began designing my own algorithms and translating programming ideas I already knew from PHP into JavaScript.
+
+A good example was designing the random kanji selection logic. I recognised the problem, considered edge cases such as preventing duplicate selections, and wrote most of the solution myself before refining it.
+
+I'm becoming more confident with JavaScript syntax, while React's rendering lifecycle is starting to make much more sense.
+
+###Next Goal
+Connect the Easy and Difficult buttons to the user interface
+Display review_count and difficulty_score during study
+Begin implementing the adaptive review algorithm based on difficulty_score
+
 ## 2026-07-09 - Smart Review Logic Implemented
 
 ### Completed
