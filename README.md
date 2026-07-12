@@ -20,9 +20,9 @@ At the same time, the project serves as a hands-on way to learn React, TypeScrip
 
 ---
 
-## Current Features
+## Current Features （現在の機能）
 
-### Kanji Management
+### Kanji Management （漢字データベース）
 
 - Add new kanji
 - View all stored kanji
@@ -34,7 +34,7 @@ At the same time, the project serves as a hands-on way to learn React, TypeScrip
   - Example words
   - Study day
 
-### Study Mode
+### Study Mode（学習モード）
 
 - Filter by study day
 - Study all days together
@@ -43,7 +43,7 @@ At the same time, the project serves as a hands-on way to learn React, TypeScrip
 - Show / Hide answers
 - Next card navigation
 
-### Smart Review
+### Smart Review（スマート復習）
 
 Each kanji stores:
 
@@ -61,7 +61,7 @@ Kanji with higher difficulty scores appear more frequently using a weighted rand
 
 ---
 
-## Tech Stack
+## Tech Stack（使用技術）
 
 - Next.js
 - React
@@ -74,7 +74,7 @@ Kanji with higher difficulty scores appear more frequently using a weighted rand
 
 ---
 
-## Project Status
+## Project Status（開発状況）
 
 ### Completed
 
@@ -106,7 +106,7 @@ Kanji with higher difficulty scores appear more frequently using a weighted rand
 
 ---
 
-## Running Locally
+## Running Locally（ローカルでの実行）
 
 Install dependencies:
 
@@ -128,7 +128,7 @@ http://localhost:3000
 
 ---
 
-## Environment Variables
+## Environment Variables（環境変数）
 
 Create a `.env.local` file:
 
@@ -141,7 +141,7 @@ Do not commit `.env.local` to GitHub.
 
 ---
 
-## What I've Learned
+## What I've Learned（学んだこと）
 
 This project has been my practical introduction to modern full-stack development. Along the way I've learned about:
 
@@ -156,12 +156,12 @@ This project has been my practical introduction to modern full-stack development
 - Git and GitHub workflows
 - Deploying applications with Vercel
 
-## Development Journal: 
+## Development Journal（開発ログ）
 See PROJECT_LOG.md for a chronological record of features, design decisions, lessons learned, and reflections.
 
 ---
 
-## Purpose
+## About
 
 Built as a personal learning project and Japanese kanji study tool.
 
