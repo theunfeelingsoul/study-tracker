@@ -36,20 +36,22 @@ export default function Home() {
 
   const currentKanji = filteredData[currentIndex];
 
-const [kanji, setKanji] = useState("");
-const [meaning, setMeaning] = useState("");
-const [onyomi, setOnyomi] = useState("");
-const [kunyomi, setKunyomi] = useState("");
-const [examples, setExamples] = useState("");
-const [study_day, setStudyDay] = useState(1);
+  const [kanji, setKanji] = useState("");
+  const [meaning, setMeaning] = useState("");
+  const [onyomi, setOnyomi] = useState("");
+  const [kunyomi, setKunyomi] = useState("");
+  const [examples, setExamples] = useState("");
+  const [study_day, setStudyDay] = useState(1);
 
 
-
-
-  // Moves to the next kanji
-  // Picks a random kanji based on a weighted array
-  const nextKanji = () =>{
-
+  
+  /**
+   * func. to buld weighted array
+   * 1. create array accepting only row[] object
+   * 2. use a foreach loop to push row records into array
+   * 
+   * **/
+  const buildWeightedArray = () => {
     //1.
     // initialize weighted array
     // Row[] is a typescript way saying only accept a Row kind of input
@@ -59,34 +61,52 @@ const [study_day, setStudyDay] = useState(1);
     // create the weigted array
     filteredData.forEach((row)=>{
       for (let i = 0; i  <= row.difficulty_score; i++) {
-            weighted.push(row); // push entire  of selected kanji 
+            // Duplicate the row in the weighted array.
+            // More difficult kanji appear multiple times,
+            // making them more likely to be selected.
+            weighted.push(row); 
       }; // end for
     }); // end forEach
 
-   // Only pick a new card if there is more than one choice.
-    if (weighted.length > 1) {
-      // do while loop
-      let filteredIndex = currentIndex; // set the condition to stop the loop
-      let weightedIndex = 0;
-      do {
-        // get a random index from the weighted array
-        weightedIndex = Math.floor(Math.random() * weighted.length);
-        
-        const selectedRow = weighted[weightedIndex];
-        filteredData.forEach((row,index)=>{
+    return weighted;
+  }
 
-          if (row.id === selectedRow.id) {
-              filteredIndex = index;
-          }
+  /**
+   * func. to pic random kanji from weighted array
+  **/
+  const randKanji = () => {
+    const weighted = buildWeightedArray();
 
-        
-        });
+    // do while loop
+    let filteredIndex = currentIndex; // set the condition to stop the loop
+    let weightedIndex = 0;
+    do {
+      // get a random index from the weighted array
+      weightedIndex = Math.floor(Math.random() * weighted.length);
+      
+      const selectedRow = weighted[weightedIndex];
+      filteredData.forEach((row,index)=>{
 
-      } while (filteredIndex === currentIndex);
+        if (row.id === selectedRow.id) {
+            filteredIndex = index;
+        }
 
-      setCurrentIndex(filteredIndex);
+      
+      });
+
+    } while (filteredIndex === currentIndex);
+
+    return filteredIndex;
+  }
+
+  // Moves to the next kanji
+  // Picks a random kanji based on a weighted array
+  const nextKanji = () =>{
+
+    // Only pick a new card if there is more than one choice.
+    if (buildWeightedArray().length > 1) {
+      setCurrentIndex(randKanji());
     }
-console.log(weighted);
     setShowAnswer(false);
   };
 
