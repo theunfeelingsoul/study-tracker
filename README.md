@@ -1,37 +1,65 @@
-# Kanji Tracker
+# Kanji Study Tracker
 
-A personal Japanese kanji study application built with Next.js, TypeScript, and Supabase.
+A personal Japanese kanji study application built with Next.js, React, TypeScript, and Supabase.
 
-## Project Purpose
+This project began as a way to learn modern full-stack web development, but has gradually evolved into a practical study tool for reviewing Japanese kanji using an adaptive review system.
 
-This project was created to:
+---
 
-- Practice full-stack web development
-- Learn React and Next.js
-- Learn TypeScript
-- Learn database integration with Supabase
-- Build a useful tool for studying Japanese kanji
+## Project Goals
+
+The application allows me to:
+
+- Store personal kanji study notes
+- Organize kanji by study day
+- Review kanji using flashcard-style practice
+- Track review history
+- Prioritize difficult kanji during study sessions
+
+At the same time, the project serves as a hands-on way to learn React, TypeScript, Next.js, and software design principles.
+
+---
 
 ## Current Features
 
-### Kanji Database
+### Kanji Management
 
-Users can store:
+- Add new kanji
+- View all stored kanji
+- Store:
+  - Kanji
+  - Meaning
+  - Onyomi
+  - Kunyomi
+  - Example words
+  - Study day
 
-- Kanji
-- Meaning
-- Onyomi reading
-- Kunyomi reading
-- Example words
-- Study day category
+### Study Mode
 
-### Create Kanji
+- Filter by study day
+- Study all days together
+- Random kanji selection
+- Prevent immediate duplicate cards
+- Show / Hide answers
+- Next card navigation
 
-New kanji entries can be added through a web form and saved directly to the database.
+### Smart Review
 
-### View Kanji
+Each kanji stores:
 
-Saved kanji entries are retrieved from Supabase and displayed in the application.
+- Review count
+- Difficulty score
+
+After every review you can mark a card as:
+
+- Easy
+- Difficult
+
+The application updates the review statistics automatically.
+
+Kanji with higher difficulty scores appear more frequently using a weighted random selection algorithm, allowing weaker cards to be reviewed more often while still showing easier cards occasionally.
+
+---
 
 ## Tech Stack
 
@@ -40,30 +68,43 @@ Saved kanji entries are retrieved from Supabase and displayed in the application
 - TypeScript
 - Supabase
 - PostgreSQL
+- Tailwind CSS
 - Vercel
-- Git / GitHub
+- Git & GitHub
+
+---
 
 ## Project Status
 
-Current version: MVP v0.1
+### Completed
 
-Completed:
+- ✅ Supabase integration
+- ✅ Database design
+- ✅ Create (CRUD)
+- ✅ Read (CRUD)
+- ✅ Random study mode
+- ✅ Study day filtering
+- ✅ Flashcard interface
+- ✅ Easy / Difficult review system
+- ✅ Review statistics
+- ✅ Weighted review algorithm
+- ✅ Vercel deployment
 
-- Database setup
-- Supabase integration
-- Kanji table creation
-- Create (CRUD)
-- Read (CRUD)
-- Vercel deployment
+### In Progress
 
-Planned:
+- Edit kanji
+- Delete kanji
+- Review algorithm cleanup and optimization
 
-- Study Day filtering
-- Flashcard-style review mode
-- Random kanji review
-- Update kanji entries
-- Delete kanji entries
-- Progress tracking
+### Planned
+
+- User authentication
+- Personal kanji collections
+- User-specific progress
+- Study statistics dashboard
+- Smarter spaced repetition scheduling
+
+---
 
 ## Running Locally
 
@@ -73,7 +114,7 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Start the development server:
 
 ```bash
 npm run dev
@@ -81,9 +122,11 @@ npm run dev
 
 Open:
 
-```text
+```
 http://localhost:3000
 ```
+
+---
 
 ## Environment Variables
 
@@ -96,6 +139,29 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 Do not commit `.env.local` to GitHub.
 
-## Author
+---
 
-Built as a learning project and personal Japanese study tool.
+## What I've Learned
+
+This project has been my practical introduction to modern full-stack development. Along the way I've learned about:
+
+- React state management
+- TypeScript
+- Next.js App Router
+- Supabase CRUD operations
+- PostgreSQL
+- Component design
+- JavaScript algorithms
+- Software refactoring
+- Git and GitHub workflows
+- Deploying applications with Vercel
+
+## Development Journal: 
+See PROJECT_LOG.md for a chronological record of features, design decisions, lessons learned, and reflections.
+
+---
+
+## Purpose
+
+Built as a personal learning project and Japanese kanji study tool.
+
