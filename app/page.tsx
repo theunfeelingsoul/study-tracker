@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import KanjiList from "./components/KanjiList";
 
 type Row = {
   id: number;
@@ -256,17 +257,22 @@ export default function Home() {
       <p><strong>Examples:</strong> {currentKanji.examples}</p>
 
       <p>Reviews : {currentKanji.review_count}</p>
-  <p>Difficulty : {currentKanji.difficulty_score}</p>
+      <p>Difficulty : {currentKanji.difficulty_score}</p>
 
-  <br/> <button className="border rounded px-4 py-2 m-2" onClick=
-  {easyKanji}>
-   --Easy--
-  </button>
-    {/*<br/>*/}
-  <button className="border rounded px-4 py-2 m-2" onClick={difficultKanji}>
-    --Difficult--
-  </button>
-  <br/>
+      <br/> <button className="border rounded px-4 py-2 m-2" onClick=
+      {easyKanji}>
+       --Easy--
+      </button>
+        {/*<br/>*/}
+      <button className="border rounded px-4 py-2 m-2" onClick={difficultKanji}>
+        --Difficult--
+      </button>
+      <br/>
+       <br/>
+      <button className="border rounded px-4 py-2 m-2" >
+        --Edit--
+      </button>
+      <br/>
     </div>
 
 
@@ -349,30 +355,7 @@ export default function Home() {
    
         <hr />
       </div>
-        {data.map((row) => (
-          <div key={row.id}>
-            <h2>{row.kanji}</h2>
-            <p>
-              <strong>Meaning :</strong> {row.meaning}
-            </p>  
-            <p>
-              <strong>Onyomi:</strong> {row.onyomi}
-            </p>
-
-            <p>
-              <strong>Kunyomi:</strong> {row.kunyomi}
-            </p>
-
-            <p>
-              <strong>Examples:</strong> {row.examples}
-            </p>
-
-            <p>
-              <strong>Study Day:</strong> {row.study_day}
-            </p>
-            <hr/>
-          </div>
-        ))}
+        <KanjiList data = {data}/>
         {/*end text align*/}
       </div>
     </main>

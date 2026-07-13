@@ -57,10 +57,71 @@ Example Categories/study_day:
 ### Phase 5: Authentication
 
 - [ ] User login
-- [ ] Personal kanji collections
+- [ ] Personal kanji collecitons
 - [ ] User-specific progress
 
 ---
+
+## 2026-07-14 - Beginning Component-Based Architecture
+
+### Completed
+
+* Created the project's first reusable React component: `KanjiList`.
+* Created a dedicated `components` folder to separate UI components from application logic.
+* Moved the kanji list display from `page.tsx` into `KanjiList.tsx`.
+* Passed the kanji data from the parent component to `KanjiList` using React props.
+* Defined a dedicated `Props` type describing the data expected by the component.
+* Verified that the application behaved exactly as before after the refactor.
+
+### Learned
+
+#### React
+
+* A React component is similar to a self-contained PHP page that is imported into another page, but receives its data through **props** rather than accessing parent variables directly.
+* Components should have a single responsibility. `KanjiList` is only responsible for displaying kanji and knows nothing about how the data is fetched or updated.
+* Parent components own the application's state, while child components receive only the information they need.
+
+#### TypeScript
+
+* The difference between a data model (`Row`) and a props definition (`Props`).
+* Why a component's props need their own type even when the underlying data has already been defined elsewhere.
+* How TypeScript can infer the types of many variables automatically, meaning explicit type definitions are only required when inference is insufficient or when describing object shapes.
+
+#### Software Design
+
+* Began moving from a "single large page" design toward a component-based architecture.
+* Recognised that breaking the interface into smaller, reusable components improves readability without changing functionality.
+* Discussed the similarities between React components and PHP includes, while also understanding that React components communicate through props rather than shared variables.
+
+### Current Status
+
+#### Study Mode
+
+* Day filtering ✅
+* Random weighted review ✅
+* Easy / Difficult review system ✅
+* Review statistics ✅
+
+#### Architecture
+
+* `KanjiList` component ✅
+* Component folder structure started ✅
+* Additional UI components planned ⏳
+
+### Reflection
+
+Today contained very little new functionality, but it introduced one of the biggest architectural changes in the project so far.
+
+Rather than continuing to add features to an increasingly large `page.tsx`, I began separating the application into focused components. This doesn't make the application do anything new, but it makes the codebase easier to understand, maintain, and extend.
+
+Coming from a PHP background, I naturally compared React components to separate PHP pages or includes. While there are important differences—particularly the use of props—the overall idea of separating responsibilities feels familiar. That connection made React's component model much easier to understand.
+
+### Next Goal
+
+* Extract the Add Kanji form into its own `AddKanjiForm` component.
+* Learn how multiple props are passed from a parent component to a child component.
+* Continue refactoring the interface before implementing the Edit (CRUD) feature.
+
 
 ## 2026-07-12 - Weighted Review Refactoring
 
