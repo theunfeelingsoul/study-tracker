@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 type Row = {
   id: number;
@@ -48,32 +49,65 @@ export default function KanjiDetailPage() {
     <main className="w-full max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Kanji Detail</h1>
 
-      <div className="border p-4 mb-4">
-        <p>
-          <strong>Kanji:</strong> {kanji.kanji}
-        </p>
-        <p>
-          <strong>Meaning:</strong> {kanji.meaning}
-        </p>
-        <p>
-          <strong>Onyomi:</strong> {kanji.onyomi}
-        </p>
-        <p>
-          <strong>Kunyomi:</strong> {kanji.kunyomi}
-        </p>
-        <p>
-          <strong>Examples:</strong> {kanji.examples}
-        </p>
-        <p>
-          <strong>Study Day:</strong> {kanji.study_day}
-        </p>
-        <p>
-          <strong>Difficulty Score:</strong> {kanji.difficulty_score}
-        </p>
-        <p>
-          <strong>Review Count:</strong> {kanji.review_count}
-        </p>
-      </div>
+      <section className="flex gap-4 mb-6">
+        <Link href="/kanji" className="underline">
+          Back
+        </Link>
+        <Link
+          href={`/kanji/edit/${kanji.id}`}
+          className="underline text-blue-600"
+        >
+          Edit
+        </Link>
+
+        <button className="underline text-red-600">Delete</button>
+      </section>
+      <section className="text-center m-4 text-8xl font-semibold">
+        {kanji.kanji}
+      </section>
+      <table className="w-full border-collapse">
+        <thead className="border-b">
+          <tr>
+            <th className="text-left p-2"></th>
+            <th className="text-left p-2"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Kanji:</td>
+            <td className="p-2 ">{kanji.kanji}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Meaning:</td>
+            <td className="p-2">{kanji.meaning}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Onyomi:</td>
+            <td className="p-2">{kanji.onyomi}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Kunyomi:</td>
+            <td className="p-2">{kanji.kunyomi}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Examples:</td>
+            <td className="p-2">{kanji.examples}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Study Day:</td>
+            <td className="p-2">{kanji.study_day}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Difficulty Score:</td>
+            <td className="p-2">{kanji.difficulty_score}</td>
+          </tr>
+          <tr className="border-b hover:bg-gray-50">
+            <td className="p-2 font-semibold">Review Count:</td>
+            <td className="p-2">{kanji.review_count}</td>
+          </tr>
+        </tbody>
+      </table>
     </main>
   );
 }
