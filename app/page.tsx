@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import KanjiList from "./components/KanjiList";
+import KanjiForm from "./components/KanjiForm";
+import StudyMode from "./components/StudyMode";
 
 type Row = {
   id: number;
@@ -16,6 +18,24 @@ type Row = {
   review_count: number;
 };
 
+type Props = {
+  kanji: string;
+  meaning: string;
+  onyomi: string;
+  kunyomi: string;
+  examples: string;
+  study_day: number;
+
+  setKanji: React.Dispatch<React.SetStateAction<string>>;
+  setMeaning: React.Dispatch<React.SetStateAction<string>>;
+  setOnyomi: React.Dispatch<React.SetStateAction<string>>;
+  setKunyomi: React.Dispatch<React.SetStateAction<string>>;
+  setExamples: React.Dispatch<React.SetStateAction<string>>;
+  setStudyDay: React.Dispatch<React.SetStateAction<number>>;
+
+  saveKanji: () => void;
+};
+
 
 
 export default function Home() {
@@ -23,6 +43,7 @@ export default function Home() {
   const [selectedDay, setSelectedDay] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0); //array positions stored in react
   const [showAnswer, setShowAnswer] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   // Filter the kanji list based on the selected study day.
   // If "All Days" is selected (0), use every kanji.
@@ -175,6 +196,15 @@ export default function Home() {
     nextKanji();
   };
 
+  const editKanji = () => {
+    // get the kanji data from current kanji
+    // populate the form
+    // get id from currentKanji.id
+    // update database with currentKanji.id as identifier
+
+    
+  }
+
 
   const fetchData = async () => {
     const { data, error } = await supabase.from("kanji").select("*");
@@ -212,149 +242,61 @@ export default function Home() {
     await fetchData();
   };
 
+
+
+  type Props2 = {
+  selectedDay: number;
+  ShowAnswer: boolean;
+  currentKanji: Row;
+  setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setShowAnswer: React.Dispatch<React.SetStateAction<Boolean>>;
+  nextKanji: () => void;
+  easyKanji: () => void;
+  difficultKanji: () => void;
+};
+
+
   return (
     <main>
       <div style={{ textAlign: "center" }}>
-        <h1 className="text-4xl font-bold">Kanji Tracker</h1>
-        <br/>
-        <select
-          value={selectedDay}
-          onChange={(e) => {
-            setSelectedDay(Number(e.target.value));
-            setCurrentIndex(0);
-            setShowAnswer(false);
-          }}
-          className="border border-gray-400 p-2"
-        >
-          <option value={0}>All Days</option>
-          <option value={1}>Day 1</option>
-          <option value={2}>Day 2</option>
-          <option value={3}>Day 3</option>
-        </select>
-        <br/>
-        <br/>
-        {currentKanji && (
-          <div>
-             <h2 className="text-2xl font-semibold">{currentKanji.kanji}</h2>
-            <p>Study Day: {currentKanji.study_day}</p>
-          </div>
-        )}
-  <br/>
-  <button className="border rounded px-4 py-2 m-2" onClick={nextKanji}>
-   --Next Button--
-  </button>
-    {/*<br/>*/}
-  <button className="border rounded px-4 py-2 m-2" onClick={() => setShowAnswer(true)}>
-    --Show Answer Button--
-  </button>
-  <br/>
+        <StudyMode
+          selectedDay = {selectedDay}
+          showAnswer = {showAnswer}
+          currentKanji = {currentKanji}
+          setSelectedDay = {setSelectedDay}
+          setCurrentIndex = {setCurrentIndex}
+          setShowAnswer = {setShowAnswer}
+          nextKanji = {nextKanji}
+          easyKanji = {easyKanji}
+          difficultKanji = {difficultKanji}
+          editKanji = {editKanji}
+       
+         
+        />
+       
 
-  {showAnswer && (
-    <div>
-      <p><strong>Meaning:</strong> {currentKanji.meaning}</p>
-      <p><strong>Onyomi:</strong> {currentKanji.onyomi}</p>
-      <p><strong>Kunyomi:</strong> {currentKanji.kunyomi}</p>
-      <p><strong>Examples:</strong> {currentKanji.examples}</p>
-
-      <p>Reviews : {currentKanji.review_count}</p>
-      <p>Difficulty : {currentKanji.difficulty_score}</p>
-
-      <br/> <button className="border rounded px-4 py-2 m-2" onClick=
-      {easyKanji}>
-       --Easy--
-      </button>
-        {/*<br/>*/}
-      <button className="border rounded px-4 py-2 m-2" onClick={difficultKanji}>
-        --Difficult--
-      </button>
-      <br/>
-       <br/>
-      <button className="border rounded px-4 py-2 m-2" >
-        --Edit--
-      </button>
-      <br/>
-    </div>
-
-
-  )}
+        
 
   
   ======================================================
-        <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-semibold">Add New Kanji</h2>
-
-
-        <input
-          type="text"
-          placeholder="Kanji"
-          value={kanji}
-          onChange={(e) => setKanji(e.target.value)}
-         className="border border-gray-400 p-2"
+        <KanjiForm
+          kanji={kanji}
+          meaning={meaning}
+          onyomi={onyomi}
+          kunyomi={kunyomi}
+          examples={examples}
+          study_day={study_day}
+          setKanji={setKanji}
+          setMeaning={setMeaning}
+          setOnyomi={setOnyomi}
+          setKunyomi={setKunyomi}
+          setExamples={setExamples}
+          setStudyDay={setStudyDay}
+          saveKanji={saveKanji}
+          editMode={setEditMode}
         />
 
-        <br />
-
-        <label>Meaning</label>
-        <br/>
-        <input
-          type="text"
-          placeholder="Meaning"
-          value={meaning}
-          onChange={(e) => setMeaning(e.target.value)}
-          className="border border-gray-400 p-2"
-        />
-
-        <br />
-
-        <input
-          type="text"
-          placeholder="Onyomi"
-          value={onyomi}
-          onChange={(e) => setOnyomi(e.target.value)}
-          className="border border-gray-400 p-2"
-        />
-
-        <br />
-
-        <input
-          type="text"
-          placeholder="Kunyomi"
-          value={kunyomi}
-          onChange={(e) => setKunyomi(e.target.value)}
-          className="border border-gray-400 p-2"
-        />
-
-        <br />
-        <label>Examples</label>
-        <textarea
-          value={examples}
-          onChange={(e) => setExamples(e.target.value)}
-          className="border border-gray-400 p-2"
-        />
-        
-
-        <br />
-
-        <select
-          value={study_day}
-          onChange={(e) => setStudyDay(Number(e.target.value))}
-          className="border border-gray-400 p-2"
-        >
-          <option value={1}>Day 1</option>
-          <option value={2}>Day 2</option>
-          <option value={3}>Day 3</option>
-        </select>
-        
-
-        <br />
-        <br />
-
-        <button onClick={saveKanji}>
-          Save Kanji
-        </button>
-   
-        <hr />
-      </div>
         <KanjiList data = {data}/>
         {/*end text align*/}
       </div>
