@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import KanjiForm from "@/app/components/KanjiForm";
+import { useRouter } from "next/navigation";
 
 type Row = {
   id: number;
@@ -35,18 +37,23 @@ export default function AddKanjiPage() {
   const [kunyomi, setKunyomi] = useState("");
   const [examples, setExamples] = useState("");
   const [study_day, setStudyDay] = useState(1);
+  const router = useRouter();
 
   const saveKanji = async () => {
-    const { error } = await supabase.from("kanji").insert([
-      {
-        kanji,
-        meaning,
-        onyomi,
-        kunyomi,
-        examples,
-        study_day,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("kanji")
+      .insert([
+        {
+          kanji,
+          meaning,
+          onyomi,
+          kunyomi,
+          examples,
+          study_day,
+        },
+      ])
+      .select()
+      .single();
 
     if (error) {
       console.error(error);
@@ -54,80 +61,36 @@ export default function AddKanjiPage() {
       return;
     }
 
-    alert("Kanji saved!");
-    // await fetchData();
+    // alert("Kanji saved!");
+    router.push(`/kanji/${data.id}`);
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-semibold">Add New Kanji</h2>
-
-      <input
-        type="text"
-        placeholder="Kanji"
-        value={kanji}
-        onChange={(e) => setKanji(e.target.value)}
-        className="border border-gray-400 p-2"
+    <main className="max-w-4xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Add New Kanji</h1>
+      <KanjiForm
+        kanji={kanji}
+        meaning={meaning}
+        onyomi={onyomi}
+        kunyomi={kunyomi}
+        examples={examples}
+        study_day={study_day}
+        setKanji={setKanji}
+        setMeaning={setMeaning}
+        setOnyomi={setOnyomi}
+        setKunyomi={setKunyomi}
+        setExamples={setExamples}
+        setStudyDay={setStudyDay}
+        buttonText="Save Kanji"
+        onSubmit={saveKanji}
       />
 
-      <br />
-
-      <label>Meaning</label>
-      <br />
-      <input
-        type="text"
-        placeholder="Meaning"
-        value={meaning}
-        onChange={(e) => setMeaning(e.target.value)}
-        className="border border-gray-400 p-2"
-      />
-
-      <br />
-
-      <input
-        type="text"
-        placeholder="Onyomi"
-        value={onyomi}
-        onChange={(e) => setOnyomi(e.target.value)}
-        className="border border-gray-400 p-2"
-      />
-
-      <br />
-
-      <input
-        type="text"
-        placeholder="Kunyomi"
-        value={kunyomi}
-        onChange={(e) => setKunyomi(e.target.value)}
-        className="border border-gray-400 p-2"
-      />
-
-      <br />
-      <label>Examples</label>
-      <textarea
-        value={examples}
-        onChange={(e) => setExamples(e.target.value)}
-        className="border border-gray-400 p-2"
-      />
-
-      <br />
-
-      <select
-        value={study_day}
-        onChange={(e) => setStudyDay(Number(e.target.value))}
-        className="border border-gray-400 p-2"
+      <button
+        onClick={saveKanji}
+        className="border rounded mt-5 p-4 w-full cursor-pointer hover:bg-blue-100 hover:text-blue-700 transition-colors"
       >
-        <option value={1}>Day 1</option>
-        <option value={2}>Day 2</option>
-        <option value={3}>Day 3</option>
-      </select>
-
-      <br />
-      <br />
-
-      <button onClick={saveKanji}>Save Kanji</button>
-
-      <hr />
-    </div>
+        Save Kanji
+      </button>
+    </main>
   );
 }

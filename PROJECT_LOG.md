@@ -63,6 +63,257 @@ Example Categories/study_day:
 
 ---
 
+## 2026-07-21 - Reusable Forms, Service Layer & Update (CRUD) Completed
+
+### Completed
+
+#### Update (CRUD)
+
+- Completed the **Edit Kanji** page.
+- Successfully implemented the Update portion of CRUD.
+- Existing kanji records are now loaded into the edit form automatically.
+- Saving changes updates the database and redirects back to the Kanji Detail page.
+- Verified the complete edit workflow:
+
+```
+Kanji List
+      ↓
+View Record
+      ↓
+Edit Record
+      ↓
+Update Database
+      ↓
+Return to Detail Page
+```
+
+#### Reusable Form Component
+
+- Refactored the Add Kanji page to use the existing `KanjiForm` component.
+- Extended `KanjiForm` so it can be reused by both the Add and Edit pages.
+- Added reusable props including:
+
+```
+buttonText
+onSubmit
+```
+
+- Eliminated duplicate form markup between Add and Edit pages.
+
+#### Service Layer
+
+- Introduced a dedicated services layer:
+
+```
+app/services/kanji.ts
+```
+
+- Moved all database operations into reusable functions.
+
+Current service methods:
+
+```
+getKanjiList()
+getKanji()
+saveKanji()
+updateKanji()
+deleteKanji()
+```
+
+- Added shared TypeScript models:
+
+```
+Kanji
+NewKanji
+```
+
+- Separated database logic from page components, making each page much smaller and easier to read.
+
+#### Navigation Improvements
+
+- After successfully creating a new kanji, the application now automatically redirects to:
+
+```
+/kanji/{id}
+```
+
+instead of remaining on the Add page.
+
+- Verified the returned inserted record from Supabase can be used immediately for navigation.
+
+#### Tailwind CSS
+
+- Redesigned the form layout.
+
+Mobile:
+
+```
+Label
+Input
+```
+
+Desktop:
+
+```
+Label      Input
+```
+
+using:
+
+```
+grid-cols-1
+md:grid-cols-[150px_1fr]
+```
+
+- Added cleaner spacing and improved button styling.
+- Added:
+
+```
+cursor-pointer
+```
+
+to buttons for better user feedback.
+
+- Experimented with lighter hover colours instead of stronger defaults.
+
+---
+
+### Learned
+
+#### Software Architecture
+
+- A service layer is similar to creating reusable classes or helper libraries in PHP.
+- Instead of repeating Supabase code across multiple pages, database operations now live in one location.
+- Separating responsibilities makes future maintenance much easier.
+
+Current responsibility split:
+
+```
+Pages
+    ↓
+Handle UI
+
+KanjiForm
+    ↓
+Displays reusable form
+
+Services
+    ↓
+Database operations
+
+Supabase
+    ↓
+Database
+```
+
+#### React
+
+- A reusable component should contain only presentation logic.
+- Parent pages own the state and simply pass values and callback functions into the component.
+- The same component can be reused for multiple purposes by changing only a few props.
+
+#### TypeScript
+
+- Better understood the purpose of dedicated types such as:
+
+```
+Kanji
+NewKanji
+```
+
+- Learned why `.ts` files are used for non-JSX code while `.tsx` files contain React components.
+- Learned how shared types improve consistency across the application.
+
+#### Next.js
+
+- Gained more experience using:
+
+```
+useParams()
+```
+
+to retrieve dynamic route parameters.
+
+- Better understood asynchronous loading using:
+
+```
+useEffect()
+```
+
+combined with async helper functions.
+
+#### VS Code
+
+- Learned useful editor features including:
+
+- Toggle suggestion popups.
+
+- Change editor zoom.
+
+- Exit Zen Mode.
+
+- Navigate quickly between functions using the Outline and Go to Symbol features.
+
+#### UI Design
+
+- Continued refining the mobile-first layout.
+- Began thinking about responsive forms rather than simply responsive pages.
+- Confirmed that a two-column desktop layout significantly improves readability while preserving a clean mobile experience.
+
+---
+
+### Current Status
+
+#### Study Mode
+
+- Day filtering ✅
+- Random weighted review ✅
+- Easy / Difficult review system ✅
+- Review statistics ✅
+- Mobile-first interface ✅
+
+#### CRUD
+
+- Create ✅
+- Read (List) ✅
+- Read (Single Record) ✅
+- Update ✅
+- Delete ⏳
+
+#### Architecture
+
+- Multi-page App Router structure ✅
+- Reusable `KanjiForm` ✅
+- Service layer (`services/kanji.ts`) ✅
+- Study page ✅
+- Kanji List page ✅
+- Kanji Detail page ✅
+- Add Kanji page ✅
+- Edit Kanji page ✅
+- Dashboard ⏳
+
+---
+
+### Reflection
+
+Today's work marked another important architectural milestone.
+
+Completing the Update feature means the application's CRUD functionality is nearly complete. More importantly, I avoided duplicating code by reusing the same form for both creating and editing kanji. This reinforced the idea that React components should focus on presentation while page components manage state and workflow.
+
+Introducing a dedicated service layer also felt very familiar coming from PHP. Instead of scattering database queries throughout the application, all Supabase operations now exist in one place. This separation makes the project feel much closer to a professionally structured application.
+
+I also continued becoming more comfortable with Tailwind CSS. Rather than treating it as inline styling, I now see it as a collection of composable utility classes that allow responsive layouts to be built directly alongside the HTML. The form redesign demonstrated how easily the interface can adapt between mobile and desktop without maintaining separate CSS files.
+
+Overall, the project is becoming increasingly modular, maintainable, and easier to extend with future features.
+
+### Next Goal
+
+- Implement Delete (CRUD).
+- Add a confirmation dialog before deleting a kanji.
+- Redirect back to the Kanji List after deletion.
+- Begin building the Dashboard page.
+- Create CRUD functionality for Study Days using a separate database table.
+
 ## 2026-07-19 - Project Restructure & Mobile-First UI
 
 ### Completed
