@@ -3,6 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import KanjiForm from "@/app/components/KanjiForm";
 import { useRouter } from "next/navigation";
+import Navigation from "@/app/components/Navigation";
 
 type Row = {
   id: number;
@@ -67,6 +68,7 @@ export default function AddKanjiPage() {
 
   return (
     <main className="max-w-4xl mx-auto p-4">
+      <Navigation />
       <h1 className="text-3xl font-bold mb-4">Add New Kanji</h1>
       <KanjiForm
         kanji={kanji}

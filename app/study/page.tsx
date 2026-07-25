@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Navigation from "@/app/components/Navigation";
 
 type Row = {
   id: number;
@@ -172,6 +173,7 @@ export default function StudyMode() {
 
   return (
     <main className="w-full max-w-md mx-auto p-4">
+      <Navigation />
       {/* title */}
       <h1 className="text-center text-4xl font-bold mb-4">Kanji Tracker ...</h1>
 

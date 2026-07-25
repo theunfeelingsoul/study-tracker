@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Toast from "@/app/components/Toast";
+import Navigation from "@/app/components/Navigation";
 
 type Row = {
   id: number;
@@ -40,6 +41,7 @@ export default function KanjiList() {
 
   return (
     <main className="w-full max-w-2xl mx-auto p-4">
+      <Navigation />
       <h1 className="text-2xl font-bold mb-4">Kanji List</h1>
       {deleted && (
         <Toast message="Kanji deleted successfully." type="success" />

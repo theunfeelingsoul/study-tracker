@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { deleteKanji } from "@/app/services/kanji";
 import DeleteModal from "@/app/components/DeleteModal";
+import Navigation from "@/app/components/Navigation";
 
 type Row = {
   id: number;
@@ -66,6 +67,7 @@ export default function KanjiDetailPage() {
 
   return (
     <main className="w-full max-w-2xl mx-auto p-4">
+      <Navigation />
       <h1 className="text-2xl font-bold mb-4">Kanji Detail</h1>
 
       <section className="flex gap-4 mb-6">

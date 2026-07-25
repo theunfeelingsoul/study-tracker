@@ -2,7 +2,7 @@
 
 A personal Japanese kanji study application built with Next.js, React, TypeScript, and Supabase.
 
-This project began as a way to learn modern full-stack web development, but has gradually evolved into a practical study tool for reviewing Japanese kanji using an adaptive review system.
+This project began as a way to learn modern full-stack web development and has gradually evolved into a practical study tool that I use while preparing for the JLPT.
 
 ---
 
@@ -68,11 +68,31 @@ Kanji with higher difficulty scores appear more frequently using a weighted rand
 - TypeScript
 - Supabase
 - PostgreSQL
-- Tailwind CSS
+- Tailwind CSS is used throughout the project to build a mobile-first responsive interface without maintaining separate CSS files.
 - Vercel
 - Git & GitHub
 
 ---
+
+## Architecture
+
+The application follows a modular App Router structure.
+
+Features include:
+
+- Multi-page Next.js App Router
+- Reusable React components
+- Service layer for database operations
+- Mobile-first responsive design
+- Shared TypeScript models
+- Separation of UI and business logic
+
+Reusable components currently include:
+
+- Navigation
+- KanjiForm
+- DeleteModal
+- Toast
 
 ## Project Status（開発状況）
 
@@ -89,11 +109,18 @@ Kanji with higher difficulty scores appear more frequently using a weighted rand
 - ✅ Review statistics
 - ✅ Weighted review algorithm
 - ✅ Vercel deployment
+- ✅ Update (CRUD)
+- ✅ Delete (CRUD)
+- ✅ Reusable form component
+- ✅ Service layer architecture
+- ✅ Custom confirmation dialog
+- ✅ Toast notifications
+- ✅ Responsive navigation
 
 ### In Progress
 
-- Edit kanji
-- Delete kanji
+- Dashboard page
+- Study Day management
 - Review algorithm cleanup and optimization
 
 ### Planned
@@ -141,6 +168,36 @@ Do not commit `.env.local` to GitHub.
 
 ---
 
+## Screenshots
+
+### Study Mode
+
+![Study Mode](screenshots/study-mode.png)
+
+### Kanji List
+
+![Kanji List](screenshots/kanji-list.png)
+
+### Kanji Detail
+
+![Kanji Detail](screenshots/kanji-detail.png)
+
+### New Kanji
+
+![New Kanji](screenshots/new-kanji.png)
+
+---
+
+## Design Philosophy
+
+This application is intentionally built using a mobile-first approach.
+
+The interface favors simplicity over feature density, making it comfortable to use on both phones and desktops. Desktop layouts expand naturally from the mobile design rather than becoming entirely separate interfaces.
+
+As the project grows, reusable React components and a dedicated service layer help keep the codebase modular, maintainable, and easy to extend.
+
+---
+
 ## What I've Learned（学んだこと）
 
 This project has been my practical introduction to modern full-stack development. Along the way I've learned about:
@@ -150,13 +207,17 @@ This project has been my practical introduction to modern full-stack development
 - Next.js App Router
 - Supabase CRUD operations
 - PostgreSQL
-- Component design
+- Reusable component architecture
 - JavaScript algorithms
 - Software refactoring
 - Git and GitHub workflows
 - Deploying applications with Vercel
+- Service layer architecture
+- Responsive UI design
+- Tailwind CSS
 
 ## Development Journal（開発ログ）
+
 See PROJECT_LOG.md for a chronological record of features, design decisions, lessons learned, and reflections.
 
 ---
@@ -164,4 +225,3 @@ See PROJECT_LOG.md for a chronological record of features, design decisions, les
 ## About
 
 Built as a personal learning project and Japanese kanji study tool.
-

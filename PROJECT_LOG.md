@@ -162,6 +162,227 @@ The project has also begun transitioning toward a reusable architecture through 
 
 ---
 
+## 2026-07-25 - Navigation, Delete Workflow & UI Polish
+
+### Completed
+
+#### Delete (CRUD)
+
+- Completed the Delete portion of CRUD.
+- Added a reusable confirmation dialog component:
+
+```
+DeleteModal
+```
+
+- Replaced the browser's default `window.confirm()` dialog with a custom modal.
+- Confirmed the delete workflow now behaves as expected:
+
+```
+View Record
+      ↓
+Delete
+      ↓
+Confirmation Modal
+      ↓
+Delete Record
+      ↓
+Redirect to Kanji List
+```
+
+#### Toast Notifications
+
+- Created a reusable Toast component.
+
+Current use:
+
+```
+<Toast
+    message="Kanji deleted successfully."
+    type="success"
+/>
+```
+
+- Implemented the first application notification.
+- After deleting a kanji, the application now redirects to:
+
+```
+/kanji?deleted=1
+```
+
+- The Kanji List page detects the query parameter and displays a temporary success notification.
+- Learned how query parameters can be used as lightweight "flash messages", similar to PHP applications.
+
+#### Navigation
+
+- Began designing the application's main navigation.
+- Chose to keep a traditional top navigation instead of introducing a hamburger menu.
+
+Current reasoning:
+
+- Faster access to all pages.
+- Fewer taps on mobile.
+- Cleaner workflow while the application remains relatively small.
+
+- Improved the navigation styling by replacing text underlines with animated bottom borders.
+
+Current link style:
+
+```
+border-b-2
+border-transparent
+hover:border-blue-500
+hover:text-blue-600
+transition-colors
+```
+
+- Added active-page highlighting using:
+
+```
+usePathname()
+```
+
+- Current page is now displayed using:
+
+- blue text
+- bold font
+- blue underline
+
+- Increased navigation font size on desktop using responsive Tailwind classes while preserving the compact mobile layout.
+
+#### UI Improvements
+
+- Continued refining the application's visual design.
+- Decided against large button-style navigation after experimenting with it.
+- Found that clean text links with subtle hover effects create a more modern interface.
+- Overall interface now feels lighter, cleaner and less cluttered.
+
+---
+
+### Learned
+
+#### Next.js
+
+- Learned how to use:
+
+```
+usePathname()
+```
+
+to determine the current route.
+
+- Better understood route matching and why:
+
+```
+pathname.startsWith(...)
+```
+
+is often more flexible than checking for exact matches.
+
+#### React
+
+- Created another reusable UI component:
+
+```
+DeleteModal
+```
+
+- Created the application's first reusable notification component:
+
+```
+Toast
+```
+
+- Continued separating reusable UI from page-specific logic.
+
+#### Tailwind CSS
+
+- Learned that subtle interactions often produce a more polished interface than larger visual effects.
+
+Examples:
+
+```
+border-transparent
+hover:border-blue-500
+transition-colors
+```
+
+- Continued using responsive typography:
+
+```
+text-base
+md:text-lg
+```
+
+to improve desktop readability while maintaining a mobile-first design.
+
+#### UI Design
+
+- Spent time evaluating different navigation patterns.
+
+Considered:
+
+- Button navigation
+- Hamburger menu
+- Sidebar
+- Traditional top navigation
+
+Ultimately chose a traditional navigation because it provides immediate access to every page with no extra interactions, which better suits the size of the current application.
+
+---
+
+### Current Status
+
+#### Study Mode
+
+- Day filtering ✅
+- Random weighted review ✅
+- Easy / Difficult review system ✅
+- Review statistics ✅
+- Mobile-first interface ✅
+
+#### CRUD
+
+- Create ✅
+- Read (List) ✅
+- Read (Single Record) ✅
+- Update ✅
+- Delete ✅
+
+#### Architecture
+
+- Multi-page App Router structure ✅
+- Reusable KanjiForm ✅
+- Reusable DeleteModal ✅
+- Reusable Toast ✅
+- Service layer (`services/kanji.ts`) ✅
+- Study page ✅
+- Kanji List page ✅
+- Kanji Detail page ✅
+- Add Kanji page ✅
+- Edit Kanji page ✅
+- Dashboard ⏳
+
+---
+
+### Reflection
+
+Today's work focused less on adding major functionality and more on improving the overall user experience.
+
+Completing the Delete workflow means the application's CRUD functionality is now fully operational. More importantly, replacing browser dialogs with reusable React components made the application feel significantly more polished and professional.
+
+The navigation also evolved considerably. After experimenting with button-based navigation and considering a hamburger menu, I realised that a simple text navigation with responsive sizing, hover animations and active-page highlighting offers a cleaner experience for an application of this size. Small details such as animated borders and temporary success notifications contribute more to the overall quality than large visual effects.
+
+Looking back over the last few weeks, the project has gradually shifted from simply "making features work" to thinking about maintainability, consistency and user experience. Reusable components, shared services and thoughtful UI design are beginning to shape the application into something that feels like a real product rather than a coding exercise.
+
+### Next Goal
+
+- Build the reusable main navigation component across all pages.
+- Add contextual sub-navigation (Back, Edit, Delete) where appropriate.
+- Begin designing the Dashboard page.
+- Create CRUD functionality for the Study Days table.
+- Continue refining the overall visual consistency of the application.
+
 ## 2026-07-25 - Delete Confirmation, Toast Notifications & Reusable UI
 
 ### Completed

@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import KanjiList from "./components/KanjiList";
 import KanjiForm from "./components/KanjiForm";
 import StudyMode from "./components/StudyMode";
+import Navigation from "@/app/components/Navigation";
 
 type Row = {
   id: number;
@@ -234,6 +235,7 @@ export default function Home() {
 
   return (
     <main>
+      <Navigation />
       <div style={{ textAlign: "center" }}>
         <StudyMode
           selectedDay={selectedDay}
