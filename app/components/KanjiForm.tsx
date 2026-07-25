@@ -13,8 +13,9 @@ type Props = {
   setExamples: React.Dispatch<React.SetStateAction<string>>;
   setStudyDay: React.Dispatch<React.SetStateAction<number>>;
 
-  buttonText: string;
   onSubmit: () => void;
+  buttonVariant: string;
+  buttonText: string;
 };
 
 export default function KanjiForm({
@@ -31,8 +32,13 @@ export default function KanjiForm({
   setExamples,
   setStudyDay,
   buttonText,
+  buttonVariant,
   onSubmit,
 }: Props) {
+  const colors = {
+    blue: "bg-blue-500 hover:bg-blue-600",
+    green: "bg-green-500 hover:bg-green-600",
+  };
   return (
     <>
       <section className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-4">
@@ -88,7 +94,7 @@ export default function KanjiForm({
       </section>
       <button
         onClick={onSubmit}
-        className="mt-6 w-full cursor-pointer rounded bg-sky-500 p-3 text-white hover:bg-sky-600 transition-colors"
+        className={`mt-6 w-full cursor-pointer rounded  p-3 text-white hover:bg-sky-600 transition-colors  ${colors[buttonVariant]}`}
       >
         {buttonText}
       </button>

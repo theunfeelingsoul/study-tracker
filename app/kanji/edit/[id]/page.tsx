@@ -3,6 +3,7 @@ import KanjiForm from "@/app/components/KanjiForm";
 import { updateKanji, getKanji } from "@/app/services/kanji";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { deleteKanji } from "@/app/services/kanji";
 
 export default function KanjiEditPage() {
   // constants
@@ -15,6 +16,23 @@ export default function KanjiEditPage() {
   const [study_day, setStudyDay] = useState(1);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this kanji?",
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await deleteKanji(kanji.id);
+
+    if (error) {
+      alert("Delete failed");
+      return;
+    }
+
+    router.push("/kanji");
+  };
 
   useEffect(() => {
     async function loadKanji() {
@@ -57,6 +75,10 @@ export default function KanjiEditPage() {
 
   return (
     <main className="w-full max-w-2xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4 border-b-1 border-gray-300">
+        Edit {kanji}
+      </h1>
+
       <KanjiForm
         kanji={kanji}
         meaning={meaning}
@@ -72,6 +94,7 @@ export default function KanjiEditPage() {
         setStudyDay={setStudyDay}
         buttonText="Update Kanji"
         onSubmit={saveChanges}
+        buttonVariant="green"
       />
     </main>
   );

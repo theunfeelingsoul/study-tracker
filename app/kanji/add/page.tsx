@@ -81,16 +81,10 @@ export default function AddKanjiPage() {
         setKunyomi={setKunyomi}
         setExamples={setExamples}
         setStudyDay={setStudyDay}
-        buttonText="Save Kanji"
+        buttonText="Add Kanji"
         onSubmit={saveKanji}
+        buttonVariant="blue"
       />
-
-      <button
-        onClick={saveKanji}
-        className="border rounded mt-5 p-4 w-full cursor-pointer hover:bg-blue-100 hover:text-blue-700 transition-colors"
-      >
-        Save Kanji
-      </button>
     </main>
   );
 }

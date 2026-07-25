@@ -11,7 +11,7 @@ Purpose:
 - Review kanji through random practice
 - Track learning progress over time
 
-Example Categories/study_day:
+Example Categories / Study Days:
 
 - Day 1: Change / System / Flow
 - Day 2: Situation / Increase / Continuation
@@ -31,12 +31,28 @@ Example Categories/study_day:
 - [x] Verify with SELECT \*
 - [x] Connect Next.js to kanji table
 
+---
+
 ### Phase 2: Kanji Management (CRUD)
 
-- [x] Add kanji form
-- [x] View kanji list
-- [ ] Edit kanji
-- [ ] Delete kanji
+#### Database
+
+- [x] Create kanji
+- [x] Read kanji list
+- [x] Read single kanji
+- [x] Update kanji
+- [x] Delete kanji
+
+#### User Interface
+
+- [x] Reusable Kanji form
+- [x] Reusable Delete confirmation modal
+- [x] Reusable Toast notifications
+- [x] Redirect after Create
+- [x] Redirect after Update
+- [x] Redirect after Delete
+
+---
 
 ### Phase 3: Study Mode
 
@@ -45,7 +61,10 @@ Example Categories/study_day:
 - [x] Show one kanji
 - [x] Show Answer button
 - [x] Next button
-- [x] Tailwind css cleanup
+- [x] Tailwind CSS cleanup
+- [x] Mobile-first layout
+
+---
 
 ### Phase 4: Smart Review
 
@@ -54,14 +73,308 @@ Example Categories/study_day:
 - [x] Review count
 - [x] Difficulty score
 - [ ] Prioritize difficult kanji
+- [ ] Review history
 
-### Phase 5: Authentication
+---
+
+### Phase 5: Study Days
+
+- [ ] Create Study Days table
+- [ ] CRUD for Study Days
+- [ ] Replace hard-coded Day dropdown
+- [ ] Link kanji to Study Days table
+
+---
+
+### Phase 6: Dashboard
+
+- [ ] Home page
+- [ ] Main navigation
+- [ ] Statistics summary
+- [ ] Recently studied kanji
+- [ ] Quick actions
+
+---
+
+### Phase 7: Authentication
 
 - [ ] User login
-- [ ] Personal kanji collecitons
+- [ ] Personal kanji collections
 - [ ] User-specific progress
 
 ---
+
+## Current Architecture
+
+```
+app/
+│
+├── page.tsx
+│
+├── components/
+│   ├── KanjiForm.tsx
+│   ├── DeleteModal.tsx
+│   └── Toast.tsx
+│
+├── services/
+│   └── kanji.ts
+│
+├── study/
+│
+├── kanji/
+│   ├── page.tsx
+│   ├── add/
+│   ├── edit/
+│   └── [id]/
+│
+└── stats/
+```
+
+### Reusable Components
+
+- ✅ KanjiForm
+- ✅ DeleteModal
+- ✅ Toast
+
+### Service Layer
+
+- ✅ getKanjiList()
+- ✅ getKanji()
+- ✅ saveKanji()
+- ✅ updateKanji()
+- ✅ deleteKanji()
+
+---
+
+## Current Milestone
+
+🎉 **Version 1 CRUD Complete**
+
+The application now supports the full CRUD lifecycle:
+
+- Create
+- Read (List)
+- Read (Single)
+- Update
+- Delete
+
+The project has also begun transitioning toward a reusable architecture through shared components and a dedicated service layer.
+
+---
+
+## 2026-07-25 - Delete Confirmation, Toast Notifications & Reusable UI
+
+### Completed
+
+#### Delete (CRUD)
+
+- Completed the Delete functionality.
+- Replaced the browser's default confirmation dialog:
+
+```javascript
+window.confirm(...)
+```
+
+with a custom React confirmation modal.
+
+- Created a reusable component:
+
+```
+app/components/DeleteModal.tsx
+```
+
+- Added support for:
+
+```
+isOpen
+onClose
+onConfirm
+```
+
+allowing the modal to be reused anywhere in the application.
+
+- Improved the delete workflow:
+
+```
+View Record
+      ↓
+Delete
+      ↓
+Confirmation Modal
+      ↓
+Delete Database Record
+      ↓
+Redirect to Kanji List
+```
+
+---
+
+#### Toast Notifications
+
+- Created the application's first reusable Toast component.
+
+```
+app/components/Toast.tsx
+```
+
+- Added support for:
+
+```
+message
+type
+```
+
+making it reusable for future success, warning and error messages.
+
+- Implemented a success notification after deleting a kanji.
+
+Current workflow:
+
+```
+Delete Record
+      ↓
+Redirect
+
+/kanji?deleted=1
+
+      ↓
+Kanji List
+      ↓
+Toast appears
+```
+
+- Learned to pass simple status information between pages using query parameters instead of relying on global state.
+
+---
+
+#### Component Reusability
+
+The project now contains several reusable components:
+
+```
+KanjiForm
+DeleteModal
+Toast
+```
+
+These are becoming the foundation of the application's UI library.
+
+---
+
+#### UI Improvements
+
+- Added a custom confirmation dialog with a cleaner appearance than the browser default.
+- Improved overall user feedback by displaying confirmation after successful deletion.
+- Continued following the mobile-first layout approach.
+
+---
+
+### Learned
+
+#### React
+
+- Learned how reusable modal components communicate with parent pages through callback props.
+
+Example:
+
+```
+isOpen
+onClose
+onConfirm
+```
+
+The parent page owns the state while the modal only displays itself.
+
+---
+
+#### Next.js
+
+- Learned how query parameters can be used to transfer small pieces of information after redirects.
+
+Example:
+
+```tsx
+router.push("/kanji?deleted=1");
+```
+
+and later reading it with:
+
+```tsx
+useSearchParams();
+```
+
+---
+
+#### Component Design
+
+Continued recognising a pattern for reusable components.
+
+Rather than placing logic inside each page, components expose configurable props while the page controls the behaviour.
+
+Current reusable UI components:
+
+```
+KanjiForm
+DeleteModal
+Toast
+```
+
+---
+
+### Current Status
+
+#### Study Mode
+
+- Day filtering ✅
+- Random weighted review ✅
+- Easy / Difficult review system ✅
+- Review statistics ✅
+- Mobile-first interface ✅
+
+#### CRUD
+
+- Create ✅
+- Read (List) ✅
+- Read (Single Record) ✅
+- Update ✅
+- Delete ✅
+
+🎉 **Full CRUD is now complete.**
+
+#### Reusable Components
+
+- KanjiForm ✅
+- DeleteModal ✅
+- Toast ✅
+
+#### Architecture
+
+- Multi-page App Router ✅
+- Service layer ✅
+- Reusable form ✅
+- Reusable modal ✅
+- Reusable toast ✅
+- Dashboard ⏳
+
+---
+
+### Reflection
+
+Today's work completed the application's CRUD functionality, marking the first major milestone of the project. Beyond simply deleting records, I improved the user experience by replacing the browser's confirmation dialog with a reusable React modal and by introducing toast notifications that provide clear feedback after successful actions.
+
+Another important step was continuing to think in terms of reusable components rather than page-specific code. The application is gradually developing its own small UI component library, with the form, modal and toast all designed to be reused elsewhere in the project. This feels much closer to how larger applications are structured and reinforces the idea of separating presentation from page logic.
+
+I also learned how Next.js query parameters can be used to communicate simple state between pages after redirects. Instead of introducing a global state solution, passing a small flag such as `?deleted=1` proved to be a clean and practical approach.
+
+With CRUD now complete, the application has moved beyond being a basic database exercise and is beginning to feel like a polished web application with reusable architecture and a more professional user experience.
+
+### Next Goal
+
+- Create the main application navigation.
+- Add contextual navigation (Back, Edit, Delete) where appropriate.
+- Build the Dashboard (Home) page.
+- Begin CRUD functionality for the **Study Days** table.
+- Continue refining the UI with reusable components and consistent styling.
 
 ## 2026-07-21 - Reusable Forms, Service Layer & Update (CRUD) Completed
 
@@ -312,6 +625,89 @@ Overall, the project is becoming increasingly modular, maintainable, and easier 
 - Add a confirmation dialog before deleting a kanji.
 - Redirect back to the Kanji List after deletion.
 - Begin building the Dashboard page.
+- Create CRUD functionality for Study Days using a separate database table.
+
+### Additional Completed
+
+- Delete (CRUD)
+- Completed the Delete portion of CRUD.
+- Added a Delete action from the Kanji Detail page.
+- Implemented reusable database deletion through:
+- deleteKanji()
+
+inside the service layer.
+
+- Successfully redirects back to the Kanji List after deletion.
+- Verified the complete delete workflow:
+
+```
+Kanji List
+↓
+View Record
+↓
+Delete
+↓
+Confirmation Dialog
+↓
+Delete Database Record
+↓
+Return to Kanji List
+```
+
+### Reusable Delete Confirmation
+
+- Created a reusable DeleteModal component.
+- Replaced the browser's default window.confirm() dialog with a custom React modal.
+- Controlled the modal using React state:
+
+```
+const [showDelete, setShowDelete] = useState(false);
+```
+
+- Learned how a modal can be shown and hidden by conditionally rendering it using:
+
+```
+if (!isOpen) return null;
+```
+
+instead of relying on the browser's built-in confirmation dialog.
+
+- Fixed several issues while implementing the modal, including:
+  -- accidentally reversing the modal visibility logic
+  -- understanding the difference between passing a callback (onClick={onClose}) and calling it immediately
+  ```
+  (onClick={onClose()})
+  ```
+  -- using the TypeScript primitive boolean instead of Boolean
+
+### Additional Learned
+
+React
+
+- Learned how reusable modal components communicate with parent components through callback props.
+- Better understood "lifting state up," where the parent controls when a child component is visible.
+- Reinforced the concept that React components should receive behaviour through props instead of containing application logic.
+
+UI Design
+
+- Began replacing browser-native dialogs with custom UI components to create a more consistent user experience.
+- Learned that custom confirmation dialogs are built entirely with React state and conditional rendering rather than special browser APIs.
+
+### Updated Current Status
+
+CRUD
+
+- Create ✅
+- Read (List) ✅
+- Read (Single Record) ✅
+- Update ✅
+- Delete ✅
+
+### Updated Next Goal
+
+- Display a toast notification after successful Create, Update and Delete operations.
+- Build a reusable notification component that can be reused throughout the application.
+- Create the Dashboard page.
 - Create CRUD functionality for Study Days using a separate database table.
 
 ## 2026-07-19 - Project Restructure & Mobile-First UI

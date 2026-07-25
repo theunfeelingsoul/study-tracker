@@ -1,8 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { deleteKanji } from "@/app/services/kanji";
+import DeleteModal from "@/app/components/DeleteModal";
 
 type Row = {
   id: number;
@@ -19,6 +21,8 @@ type Row = {
 export default function KanjiDetailPage() {
   const params = useParams();
   const [kanji, setKanji] = useState<Row | null>(null);
+  const router = useRouter();
+  const [showDelete, setShowDelete] = useState(false);
   const fetchData = async () => {
     const { data, error } = await supabase
       .from("kanji")
@@ -31,6 +35,21 @@ export default function KanjiDetailPage() {
     } else {
       setKanji(data);
     }
+  };
+
+  const handleDelete = async () => {
+    if (!kanji) return;
+
+    const { error } = await deleteKanji(kanji.id);
+
+    if (error) {
+      alert("Delete failed");
+      return;
+    }
+
+    setShowDelete(false);
+    // router.push("/kanji");
+    router.replace("/kanji?deleted=true");
   };
 
   useEffect(() => {
@@ -60,7 +79,7 @@ export default function KanjiDetailPage() {
           Edit
         </Link>
 
-        <button className="underline text-red-600">Delete</button>
+        <button onClick={() => setShowDelete(true)}>Delete</button>
       </section>
       <section className="text-center m-4 text-8xl font-semibold">
         {kanji.kanji}
@@ -108,6 +127,12 @@ export default function KanjiDetailPage() {
           </tr>
         </tbody>
       </table>
+
+      <DeleteModal
+        isOpen={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={handleDelete}
+      />
     </main>
   );
 }

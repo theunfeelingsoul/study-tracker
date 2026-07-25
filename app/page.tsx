@@ -36,8 +36,6 @@ type Props = {
   saveKanji: () => void;
 };
 
-
-
 export default function Home() {
   const [data, setData] = useState<Row[]>([]);
   const [selectedDay, setSelectedDay] = useState(0);
@@ -53,9 +51,6 @@ export default function Home() {
       ? data
       : data.filter((row) => row.study_day === selectedDay);
 
-     
-     
-
   const currentKanji = filteredData[currentIndex];
 
   const [kanji, setKanji] = useState("");
@@ -65,13 +60,11 @@ export default function Home() {
   const [examples, setExamples] = useState("");
   const [study_day, setStudyDay] = useState(1);
 
-
-  
   /**
    * func. to buld weighted array
    * 1. create array accepting only row[] object
    * 2. use a foreach loop to push row records into array
-   * 
+   *
    * **/
   const buildWeightedArray = () => {
     //1.
@@ -81,21 +74,21 @@ export default function Home() {
 
     //2.
     // create the weigted array
-    filteredData.forEach((row)=>{
-      for (let i = 0; i  <= row.difficulty_score; i++) {
-            // Duplicate the row in the weighted array.
-            // More difficult kanji appear multiple times,
-            // making them more likely to be selected.
-            weighted.push(row); 
-      }; // end for
+    filteredData.forEach((row) => {
+      for (let i = 0; i <= row.difficulty_score; i++) {
+        // Duplicate the row in the weighted array.
+        // More difficult kanji appear multiple times,
+        // making them more likely to be selected.
+        weighted.push(row);
+      } // end for
     }); // end forEach
 
     return weighted;
-  }
+  };
 
   /**
    * func. to pic random kanji from weighted array
-  **/
+   **/
   const randKanji = () => {
     const weighted = buildWeightedArray();
 
@@ -105,26 +98,21 @@ export default function Home() {
     do {
       // get a random index from the weighted array
       weightedIndex = Math.floor(Math.random() * weighted.length);
-      
+
       const selectedRow = weighted[weightedIndex];
-      filteredData.forEach((row,index)=>{
-
+      filteredData.forEach((row, index) => {
         if (row.id === selectedRow.id) {
-            filteredIndex = index;
+          filteredIndex = index;
         }
-
-      
       });
-
     } while (filteredIndex === currentIndex);
 
     return filteredIndex;
-  }
+  };
 
   // Moves to the next kanji
   // Picks a random kanji based on a weighted array
-  const nextKanji = () =>{
-
+  const nextKanji = () => {
     // Only pick a new card if there is more than one choice.
     if (buildWeightedArray().length > 1) {
       setCurrentIndex(randKanji());
@@ -132,14 +120,11 @@ export default function Home() {
     setShowAnswer(false);
   };
 
-  
-
   // Marks a kanji as easy:
   // +1 review count
   // -1 difficulty score (minimum 0)
   // Updates Supabase and moves to the next card
   const easyKanji = async () => {
-
     const newReviewCount = currentKanji.review_count + 1;
 
     let newDifficultyScore = currentKanji.difficulty_score;
@@ -152,14 +137,13 @@ export default function Home() {
       .from("kanji")
       .update({
         difficulty_score: newDifficultyScore,
-        review_count: newReviewCount
+        review_count: newReviewCount,
       })
       .eq("id", currentKanji.id);
 
-      await fetchData()
+    await fetchData();
 
-      nextKanji()
-
+    nextKanji();
   };
 
   // Marks a kanji as difficult.
@@ -170,26 +154,23 @@ export default function Home() {
   // Refresh data
   // Show next kanji
   const difficultKanji = async () => {
-
     // and +1 to the review_cunt field or the current kanji being displayed
-    const newReviewCount = currentKanji.review_count +1;
+    const newReviewCount = currentKanji.review_count + 1;
 
-    const newDifficultyScore = currentKanji.difficulty_score+1;
-
-
+    const newDifficultyScore = currentKanji.difficulty_score + 1;
 
     const { data, error } = await supabase
-        .from("kanji")
-        .update({
-          difficulty_score:newDifficultyScore,
-          review_count:newReviewCount
-        })
-        .eq("id",currentKanji.id);
+      .from("kanji")
+      .update({
+        difficulty_score: newDifficultyScore,
+        review_count: newReviewCount,
+      })
+      .eq("id", currentKanji.id);
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
     await fetchData();
 
@@ -201,10 +182,7 @@ export default function Home() {
     // populate the form
     // get id from currentKanji.id
     // update database with currentKanji.id as identifier
-
-    
-  }
-
+  };
 
   const fetchData = async () => {
     const { data, error } = await supabase.from("kanji").select("*");
@@ -215,8 +193,8 @@ export default function Home() {
       setData(data);
     }
   };
-  useEffect(() => {
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -242,44 +220,34 @@ export default function Home() {
     await fetchData();
   };
 
-
-
   type Props2 = {
-  selectedDay: number;
-  ShowAnswer: boolean;
-  currentKanji: Row;
-  setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
-  setShowAnswer: React.Dispatch<React.SetStateAction<Boolean>>;
-  nextKanji: () => void;
-  easyKanji: () => void;
-  difficultKanji: () => void;
-};
-
+    selectedDay: number;
+    ShowAnswer: boolean;
+    currentKanji: Row;
+    setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+    setShowAnswer: React.Dispatch<React.SetStateAction<Boolean>>;
+    nextKanji: () => void;
+    easyKanji: () => void;
+    difficultKanji: () => void;
+  };
 
   return (
     <main>
       <div style={{ textAlign: "center" }}>
         <StudyMode
-          selectedDay = {selectedDay}
-          showAnswer = {showAnswer}
-          currentKanji = {currentKanji}
-          setSelectedDay = {setSelectedDay}
-          setCurrentIndex = {setCurrentIndex}
-          setShowAnswer = {setShowAnswer}
-          nextKanji = {nextKanji}
-          easyKanji = {easyKanji}
-          difficultKanji = {difficultKanji}
-          editKanji = {editKanji}
-       
-         
+          selectedDay={selectedDay}
+          showAnswer={showAnswer}
+          currentKanji={currentKanji}
+          setSelectedDay={setSelectedDay}
+          setCurrentIndex={setCurrentIndex}
+          setShowAnswer={setShowAnswer}
+          nextKanji={nextKanji}
+          easyKanji={easyKanji}
+          difficultKanji={difficultKanji}
+          editKanji={editKanji}
         />
-       
-
-        
-
-  
-  ======================================================
+        ======================================================
         <KanjiForm
           kanji={kanji}
           meaning={meaning}
@@ -296,8 +264,7 @@ export default function Home() {
           saveKanji={saveKanji}
           editMode={setEditMode}
         />
-
-        <KanjiList data = {data}/>
+        <KanjiList data={data} />
         {/*end text align*/}
       </div>
     </main>
