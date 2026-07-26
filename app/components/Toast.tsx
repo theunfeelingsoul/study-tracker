@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 type Props = {
   message: string;

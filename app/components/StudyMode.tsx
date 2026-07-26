@@ -1,3 +1,19 @@
+import { Kanji } from "@/app/services/kanji";
+type Props = {
+  selectedDay: number;
+  showAnswer: boolean;
+  currentKanji: Kanji | null;
+
+  setSelectedDay: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setShowAnswer: React.Dispatch<React.SetStateAction<boolean>>;
+
+  nextKanji: () => void;
+  easyKanji: () => void;
+  difficultKanji: () => void;
+  editKanji: () => void;
+};
+
 export default function StudyMode({
 selectedDay,
 showAnswer,
@@ -9,7 +25,7 @@ nextKanji,
 easyKanji,
 difficultKanji,
 editKanji,
-}:Props2){
+}:Props){
 
 	return(
 
@@ -48,7 +64,7 @@ editKanji,
   </button>
   <br/>
 
-  {showAnswer && (
+{showAnswer && currentKanji && (
     <div>
       <p><strong>Meaning:</strong> {currentKanji.meaning}</p>
       <p><strong>Onyomi:</strong> {currentKanji.onyomi}</p>

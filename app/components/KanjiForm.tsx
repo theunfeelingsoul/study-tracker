@@ -14,7 +14,7 @@ type Props = {
   setStudyDay: React.Dispatch<React.SetStateAction<number>>;
 
   onSubmit: () => void;
-  buttonVariant: string;
+  buttonVariant?: "blue" | "green";
   buttonText: string;
 };
 
@@ -92,12 +92,12 @@ export default function KanjiForm({
           <option value={3}>Day 3</option>
         </select>
       </section>
-      <button
-        onClick={onSubmit}
-        className={`mt-6 w-full cursor-pointer rounded  p-3 text-white hover:bg-sky-600 transition-colors  ${colors[buttonVariant]}`}
-      >
-        {buttonText}
-      </button>
+ <button
+  onClick={onSubmit}
+  className={`mt-6 w-full cursor-pointer rounded p-3 text-white transition-colors ${colors[buttonVariant ?? "blue"]}`}
+>
+  {buttonText}
+</button>
     </>
   );
 }
