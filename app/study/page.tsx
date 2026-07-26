@@ -172,7 +172,7 @@ export default function StudyMode() {
   }, []);
 
   return (
-    <main className="w-full max-w-md mx-auto p-4">
+    <main className="w-full max-w-2xl mx-auto p-4">
       <Navigation />
       {/* title */}
       <h1 className="text-center text-4xl font-bold mb-4">Kanji Tracker ...</h1>

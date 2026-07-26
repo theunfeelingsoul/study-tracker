@@ -67,7 +67,7 @@ export default function AddKanjiPage() {
   };
 
   return (
-    <main className="max-w-4xl mx-auto p-4">
+    <main className="w-full max-w-2xl mx-auto p-4">
       <Navigation />
       <h1 className="text-3xl font-bold mb-4">Add New Kanji</h1>
       <KanjiForm
