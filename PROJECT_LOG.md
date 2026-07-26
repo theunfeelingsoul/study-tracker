@@ -112,9 +112,12 @@ app/
 ├── page.tsx
 │
 ├── components/
+│   ├── Navigation.tsx
 │   ├── KanjiForm.tsx
 │   ├── DeleteModal.tsx
-│   └── Toast.tsx
+│   ├── Toast.tsx
+│   ├── KanjiList.tsx
+│   └── StudyMode.tsx
 │
 ├── services/
 │   └── kanji.ts
@@ -123,11 +126,13 @@ app/
 │
 ├── kanji/
 │   ├── page.tsx
+│   ├── KanjiListPage.tsx
 │   ├── add/
 │   ├── edit/
 │   └── [id]/
 │
 └── stats/
+
 ```
 
 ### Reusable Components
@@ -161,6 +166,206 @@ The application now supports the full CRUD lifecycle:
 The project has also begun transitioning toward a reusable architecture through shared components and a dedicated service layer.
 
 ---
+
+## 2026-07-26 - Production Build, WSL Setup & Deployment
+
+### Completed
+
+#### Linux Development Environment
+
+- Installed Windows Subsystem for Linux (WSL 2).
+- Installed Ubuntu.
+- Created a dedicated Linux user account.
+- Updated Ubuntu packages.
+
+Installed development tools:
+
+```
+Node.js (LTS)
+npm
+nvm
+```
+
+- Connected Visual Studio Code to WSL using the Remote Development extension.
+- Verified that projects can now be opened directly inside the Linux environment using:
+
+```
+code .
+```
+
+This marks the beginning of developing inside Linux rather than Windows.
+
+---
+
+#### Production Build
+
+Successfully resolved all remaining production build issues.
+
+Fixed:
+
+- TypeScript prop mismatches.
+- JSX syntax errors.
+- Client component type imports.
+- Legacy page component inconsistencies.
+- Removed unused third-party imports.
+- Suspense boundary requirement introduced in newer versions of Next.js.
+
+Refactored the Kanji List route into:
+
+```
+page.tsx
+      ↓
+Suspense
+      ↓
+KanjiListPage.tsx
+```
+
+to satisfy the App Router production requirements while keeping the routing layer clean.
+
+---
+
+#### Deployment
+
+Successfully produced the first completely clean production build.
+
+```
+npm run build
+```
+
+now completes successfully.
+
+The application generates:
+
+```
+Static routes
+Dynamic routes
+TypeScript validation
+Production optimization
+```
+
+without errors.
+
+---
+
+#### Git Workflow
+
+Merged the long-running feature branch into the main production branch.
+
+Workflow:
+
+```
+master
+    ↓
+git pull
+    ↓
+git merge edit-feature
+    ↓
+git push origin master
+```
+
+Also gained a better understanding of:
+
+- fetch
+- pull
+- merge
+- fast-forward merges
+- production deployment workflow
+
+---
+
+### Learned
+
+#### Next.js
+
+- Production builds enforce stricter rules than development mode.
+- Learned why `useSearchParams()` requires a Suspense boundary.
+- Better understood the separation between Server Components and Client Components.
+- Learned that production builds validate every route, even pages that are no longer actively used.
+
+#### Linux
+
+- Installed and configured a complete WSL development environment.
+- Learned basic Linux navigation.
+
+Examples:
+
+```
+pwd
+cd
+ls
+```
+
+- Installed Node.js inside Linux using `nvm`.
+- Opened Linux projects directly inside VS Code.
+
+#### Git
+
+Better understood the complete workflow:
+
+```
+Working Tree
+      ↓
+Commit
+      ↓
+Push
+      ↓
+Merge
+      ↓
+Deploy
+```
+
+Also clarified the differences between:
+
+```
+fetch
+pull
+merge
+push
+```
+
+and when each command should be used.
+
+---
+
+### Current Status
+
+#### Development Environment
+
+- Windows ✅
+- Linux (WSL) ✅
+- VS Code Remote Development ✅
+
+#### Production
+
+- Clean production build ✅
+- TypeScript validation ✅
+- Vercel deployment ready ✅
+
+#### CRUD
+
+- Create ✅
+- Read ✅
+- Update ✅
+- Delete ✅
+
+---
+
+### Reflection
+
+Today's work felt less like adding application features and more like becoming a more complete software developer.
+
+Setting up a Linux development environment marks an important transition. Although the application still runs exactly as before, I now have access to the same command-line tools and workflows used in many professional development environments.
+
+Equally important was resolving the production build. During development, Next.js is intentionally forgiving, but the production build exposed architectural issues that required a deeper understanding of App Router, Client Components, Suspense boundaries and TypeScript. Solving those problems made the project feel significantly more production-ready.
+
+Finally, merging the feature branch into the master branch represented the completion of Version 1 of the application's core functionality. The project now contains a fully working CRUD system, reusable components, a service layer, responsive navigation and a clean production build.
+
+### Next Goal
+
+- Begin studying Next.js architecture in greater depth.
+- Become comfortable recreating the application's structure from memory.
+- Continue developing primarily inside the Linux environment.
+- Begin planning Version 2 of the application.
 
 ## 2026-07-25 - Navigation, Delete Workflow & UI Polish
 
