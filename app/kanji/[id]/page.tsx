@@ -6,6 +6,7 @@ import Link from "next/link";
 import { deleteKanji } from "@/app/services/kanji";
 import DeleteModal from "@/app/components/DeleteModal";
 import Navigation from "@/app/components/Navigation";
+import { getStudyDays, type StudyDay } from "@/app/services/studyDays";
 
 type Row = {
   id: number;
@@ -14,7 +15,7 @@ type Row = {
   onyomi: string;
   kunyomi: string;
   examples: string;
-  study_day: number;
+  study_day_id: number | null;
   difficulty_score: number;
   review_count: number;
 };
@@ -22,6 +23,7 @@ type Row = {
 export default function KanjiDetailPage() {
   const params = useParams();
   const [kanji, setKanji] = useState<Row | null>(null);
+  const [studyDays, setStudyDays] = useState<StudyDay[]>([]);
   const router = useRouter();
   const [showDelete, setShowDelete] = useState(false);
   const fetchData = async () => {
@@ -55,6 +57,17 @@ export default function KanjiDetailPage() {
 
   useEffect(() => {
     fetchData();
+
+    const loadStudyDays = async () => {
+      try {
+        const days = await getStudyDays();
+        setStudyDays(days);
+      } catch (error) {
+        console.error("Failed to load study days:", error);
+      }
+    };
+
+    loadStudyDays();
   }, []);
 
   if (!kanji) {
@@ -95,35 +108,39 @@ export default function KanjiDetailPage() {
         </thead>
 
         <tbody>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Kanji:</td>
             <td className="p-2 ">{kanji.kanji}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Meaning:</td>
             <td className="p-2">{kanji.meaning}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Onyomi:</td>
             <td className="p-2">{kanji.onyomi}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Kunyomi:</td>
             <td className="p-2">{kanji.kunyomi}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Examples:</td>
             <td className="p-2">{kanji.examples}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Study Day:</td>
-            <td className="p-2">{kanji.study_day}</td>
+            <td className="p-2">
+              {studyDays.find(
+                (day) => Number(day.id) === Number(kanji.study_day_id),
+              )?.name ?? "Unassigned"}
+            </td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Difficulty Score:</td>
             <td className="p-2">{kanji.difficulty_score}</td>
           </tr>
-          <tr className="border-b hover:bg-gray-50">
+          <tr className="border-b border-gray-700 hover:bg-gray-800">
             <td className="p-2 font-semibold">Review Count:</td>
             <td className="p-2">{kanji.review_count}</td>
           </tr>

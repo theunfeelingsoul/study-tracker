@@ -7,7 +7,7 @@ export type Kanji = {
   onyomi: string;
   kunyomi: string;
   examples: string;
-  study_day: number;
+  study_day_id: number | null;
   difficulty_score: number;
   review_count: number;
 };
@@ -18,7 +18,7 @@ export type NewKanji = {
   onyomi: string;
   kunyomi: string;
   examples: string;
-  study_day: number;
+  study_day_id: number | null;
 };
 
 // ----------------------------

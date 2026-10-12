@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Navigation from "@/app/components/Navigation";
+import { getStudyDays, type StudyDay } from "@/app/services/studyDays";
 
 type Row = {
   id: number;
@@ -11,7 +12,7 @@ type Row = {
   onyomi: string;
   kunyomi: string;
   examples: string;
-  study_day: number;
+  study_day_id: number | null;
   difficulty_score: number;
   review_count: number;
 };
@@ -22,6 +23,7 @@ export default function StudyMode() {
   const [selectedDay, setSelectedDay] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0); //array positions stored in react
   const [showAnswer, setShowAnswer] = useState(false);
+  const [studyDays, setStudyDays] = useState<StudyDay[]>([]);
 
   // Filter the kanji list based on the selected study day.
   // If "All Days" is selected (0), use every kanji.
@@ -29,7 +31,7 @@ export default function StudyMode() {
   const filteredData =
     selectedDay === 0
       ? data
-      : data.filter((row) => row.study_day === selectedDay);
+      : data.filter((row) => row.study_day_id === selectedDay);
 
   const currentKanji = filteredData[currentIndex];
 
@@ -169,7 +171,17 @@ export default function StudyMode() {
 
   useEffect(() => {
     fetchData();
+    loadStudyDays();
   }, []);
+
+  const loadStudyDays = async () => {
+    try {
+      const days = await getStudyDays();
+      setStudyDays(days);
+    } catch (error) {
+      console.error("Failed to load study days:", error);
+    }
+  };
 
   return (
     <main className="w-full max-w-2xl mx-auto p-4">
@@ -186,12 +198,15 @@ export default function StudyMode() {
             setCurrentIndex(0);
             setShowAnswer(false);
           }}
-          className="w-full border border-gray-400 p-2"
+          className="w-full rounded border border-gray-600 bg-gray-800 p-2 text-white color-scheme-dark"
         >
           <option value={0}>All Days</option>
-          <option value={1}>Day 1</option>
-          <option value={2}>Day 2</option>
-          <option value={3}>Day 3</option>
+
+          {studyDays.map((day) => (
+            <option key={day.id} value={day.id}>
+              {day.name}
+            </option>
+          ))}
         </select>
       </section>
 
@@ -199,7 +214,11 @@ export default function StudyMode() {
         {currentKanji && (
           <div>
             <h2 className="text-8xl font-semibold">{currentKanji.kanji}</h2>
-            <p>Study Day: {currentKanji.study_day}</p>
+            <p>
+              Study Day:{" "}
+              {studyDays.find((day) => day.id === currentKanji.study_day_id)
+                ?.name ?? "Unassigned"}
+            </p>
           </div>
         )}
       </section>

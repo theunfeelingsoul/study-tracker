@@ -1,35 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import KanjiForm from "@/app/components/KanjiForm";
 import { useRouter } from "next/navigation";
 import Navigation from "@/app/components/Navigation";
 
-type Row = {
-  id: number;
-  kanji: string;
-  meaning: string;
-  onyomi: string;
-  kunyomi: string;
-  examples: string;
-  study_day: number;
-  difficulty_score: number;
-  review_count: number;
-};
-
-// const fetchData = async () => {
-//   const { data, error } = await supabase.from("kanji").select("*");
-
-//   if (error) {
-//     console.error(error);
-//   } else {
-//     setData(data);
-//   }
-// };
-
-// useEffect(() => {
-//   fetchData();
-// }, []);
+import { getStudyDays, type StudyDay } from "@/app/services/studyDays";
 
 export default function AddKanjiPage() {
   const [kanji, setKanji] = useState("");
@@ -39,6 +15,26 @@ export default function AddKanjiPage() {
   const [examples, setExamples] = useState("");
   const [study_day, setStudyDay] = useState(1);
   const router = useRouter();
+  const [studyDays, setStudyDays] = useState<StudyDay[]>([]);
+  const [loadingStudyDays, setLoadingStudyDays] = useState(true);
+
+  useEffect(() => {
+    async function loadStudyDays() {
+      setLoadingStudyDays(true);
+
+      try {
+        const days = await getStudyDays();
+        setStudyDays(days);
+      } catch (error) {
+        console.error("Failed to load study days:", error);
+        alert("Could not load study days. Please refresh the page.");
+      } finally {
+        setLoadingStudyDays(false);
+      }
+    }
+
+    loadStudyDays();
+  }, []);
 
   const saveKanji = async () => {
     const { data, error } = await supabase
@@ -50,19 +46,18 @@ export default function AddKanjiPage() {
           onyomi,
           kunyomi,
           examples,
-          study_day,
+          study_day_id: study_day,
         },
       ])
       .select()
       .single();
 
     if (error) {
-      console.error(error);
+      console.error("Failed to save kanji:", error);
       alert("Failed to save kanji");
       return;
     }
 
-    // alert("Kanji saved!");
     router.push(`/kanji/${data.id}`);
   };
 
@@ -77,15 +72,17 @@ export default function AddKanjiPage() {
         kunyomi={kunyomi}
         examples={examples}
         study_day={study_day}
+        studyDays={studyDays}
         setKanji={setKanji}
         setMeaning={setMeaning}
         setOnyomi={setOnyomi}
         setKunyomi={setKunyomi}
         setExamples={setExamples}
         setStudyDay={setStudyDay}
-        buttonText="Add Kanji"
+        buttonText={loadingStudyDays ? "Loading Study Days..." : "Add Kanji"}
         onSubmit={saveKanji}
         buttonVariant="blue"
+        disabled={loadingStudyDays || studyDays.length === 0}
       />
     </main>
   );

@@ -1,3 +1,5 @@
+import type { StudyDay } from "@/app/services/studyDays";
+
 type Props = {
   kanji: string;
   meaning: string;
@@ -5,6 +7,8 @@ type Props = {
   kunyomi: string;
   examples: string;
   study_day: number;
+  studyDays: StudyDay[];
+  disabled?: boolean;
 
   setKanji: React.Dispatch<React.SetStateAction<string>>;
   setMeaning: React.Dispatch<React.SetStateAction<string>>;
@@ -25,15 +29,17 @@ export default function KanjiForm({
   kunyomi,
   examples,
   study_day,
+  studyDays,
+  setStudyDay,
   setKanji,
   setMeaning,
   setOnyomi,
   setKunyomi,
   setExamples,
-  setStudyDay,
   buttonText,
   buttonVariant,
   onSubmit,
+  disabled,
 }: Props) {
   const colors = {
     blue: "bg-blue-500 hover:bg-blue-600",
@@ -85,19 +91,22 @@ export default function KanjiForm({
         <select
           value={study_day}
           onChange={(e) => setStudyDay(Number(e.target.value))}
-          className="border border-gray-400 p-2"
+          className="w-full rounded border border-gray-600 bg-gray-800 p-2 text-white color-scheme-dark"
         >
-          <option value={1}>Day 1</option>
-          <option value={2}>Day 2</option>
-          <option value={3}>Day 3</option>
+          {studyDays.map((day) => (
+            <option key={day.id} value={day.id}>
+              {day.name}
+            </option>
+          ))}
         </select>
       </section>
- <button
-  onClick={onSubmit}
-  className={`mt-6 w-full cursor-pointer rounded p-3 text-white transition-colors ${colors[buttonVariant ?? "blue"]}`}
->
-  {buttonText}
-</button>
+      <button
+        onClick={onSubmit}
+        disabled={disabled}
+        className={`mt-6 w-full cursor-pointer rounded p-3 text-white transition-colors ${colors[buttonVariant ?? "blue"]} disabled:opacity-50 disabled:cursor-not-allowed`}
+      >
+        {buttonText}
+      </button>
     </>
   );
 }

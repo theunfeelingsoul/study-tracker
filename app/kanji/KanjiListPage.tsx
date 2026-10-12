@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Toast from "@/app/components/Toast";
 import Navigation from "@/app/components/Navigation";
+import { getStudyDays, type StudyDay } from "@/app/services/studyDays";
 
 type Row = {
   id: number;
@@ -14,13 +15,14 @@ type Row = {
   onyomi: string;
   kunyomi: string;
   examples: string;
-  study_day: number;
+  study_day_id: number | null;
   difficulty_score: number;
   review_count: number;
 };
 
 export default function KanjiList() {
   const [data, setData] = useState<Row[]>([]);
+  const [studyDays, setStudyDays] = useState<StudyDay[]>([]);
   const searchParams = useSearchParams();
   const deleted = searchParams.get("deleted");
   const fetchData = async () => {
@@ -35,8 +37,20 @@ export default function KanjiList() {
       setData(data);
     }
   };
+
   useEffect(() => {
     fetchData();
+
+    const loadStudyDays = async () => {
+      try {
+        const days = await getStudyDays();
+        setStudyDays(days);
+      } catch (error) {
+        console.error("Failed to load study days:", error);
+      }
+    };
+
+    loadStudyDays();
   }, []);
 
   return (
@@ -62,12 +76,19 @@ export default function KanjiList() {
 
         <tbody>
           {data.map((row) => (
-            <tr key={row.id} className="border-b hover:bg-gray-50">
+            <tr
+              key={row.id}
+              className="border-b border-gray-700 hover:bg-gray-800"
+            >
               <td className="p-2 font-semibold">{row.kanji}</td>
               <td className="p-2">{row.meaning}</td>
               <td className="p-2 hidden md:table-cell">{row.onyomi}</td>
               <td className="p-2 hidden md:table-cell">{row.kunyomi}</td>
-              <td className="p-2">{row.study_day}</td>
+              <td className="p-2">
+                {studyDays.find(
+                  (day) => Number(day.id) === Number(row.study_day_id),
+                )?.name ?? "Unassigned"}
+              </td>
               <td className="p-2">
                 <Link href={`/kanji/edit/${row.id}`} className="underline">
                   Edit

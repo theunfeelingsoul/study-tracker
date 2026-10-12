@@ -167,6 +167,75 @@ The project has also begun transitioning toward a reusable architecture through 
 
 ---
 
+## 2026-10-13 - Study Days Migration & Dark Theme Polish
+
+### Completed
+
+#### Study Days Database Migration
+
+- Completed the transition from the legacy `study_day` column to `study_day_id`.
+- Updated kanji creation to save the selected study day using `study_day_id`.
+- Updated kanji editing to load and save the correct study day relationship.
+- Updated the Kanji List, Kanji Detail, and Study Mode pages to use `study_day_id`.
+- Updated the shared Kanji service types to remove the legacy `study_day` property.
+- Verified that all 20 kanji records had an assignment in `study_day_id`.
+- Confirmed that the existing foreign key on `study_day_id` remained intact.
+- Removed the obsolete `study_day` column from the Supabase `kanji` table.
+- Tested the application after the database migration.
+
+#### Dark Theme Improvements
+
+- Fixed the Study Day dropdown styling to improve readability in dark mode.
+- Updated Kanji table row hover styling for consistency with the dark theme.
+- Redesigned the reusable `DeleteModal` with a dark background, readable text, subtle borders, and matching button styles.
+- Verified that the deletion confirmation modal opens correctly and that Cancel closes it without deleting the record.
+
+### Learned
+
+#### Supabase and PostgreSQL
+
+- Understood the importance of migrating application code before removing an obsolete database column.
+- Used read-only SQL queries to inspect column definitions, compare existing data, and check database constraints.
+- Confirmed that the foreign key protects the new study-day relationship.
+- Learned to verify database integrity before performing a destructive schema change.
+
+#### TypeScript and Application Architecture
+
+- Updated shared types and active page types to remove references to the legacy database field.
+- Distinguished between a local React form-state name and an actual database column.
+- Reinforced the importance of keeping the database schema, service types, and application queries consistent.
+
+#### Tailwind CSS
+
+- Improved consistency across dark-themed form controls, tables, and modal dialogs.
+- Used background, text, border, and hover utilities to make the interface more readable.
+
+### Current Status
+
+- Dynamic Study Day selection ✅
+- Kanji creation using `study_day_id` ✅
+- Kanji editing using `study_day_id` ✅
+- Kanji List and Detail pages using the new relationship ✅
+- Study Mode filtering using the new relationship ✅
+- Legacy database column removed ✅
+- Dark-themed DeleteModal ✅
+- Application functionality verified after migration ✅
+
+### Reflection
+
+Today's work was an important database and maintenance milestone. Rather than simply changing a column name, I traced the migration through the database, shared TypeScript types, forms, and active application pages. I verified the existing records and foreign-key relationship before removing the obsolete column.
+
+I also continued improving the application's visual consistency by correcting dark-theme styling in the reusable DeleteModal. This reinforced the value of reusable components: one change improves the experience everywhere that component is used.
+
+The project is becoming easier to maintain because the database schema and application code now follow the same study-day relationship.
+
+### Next Goal
+
+- Continue developing the Study Tracker's dashboard and statistics.
+- Review the remaining legacy or unused components.
+- Continue improving the application while maintaining a consistent dark theme.
+- Commit and push the completed changes to GitHub.
+
 ## 2026-07-26 - Production Build, WSL Setup & Deployment
 
 ### Completed
