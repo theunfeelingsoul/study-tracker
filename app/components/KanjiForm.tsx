@@ -80,7 +80,7 @@ export default function KanjiForm({
           className="border border-gray-400 p-2"
         />
 
-        <label className="font-semibold">Examples</label>
+        <label className="font-semibold">Examples/Readings</label>
         <textarea
           value={examples}
           onChange={(e) => setExamples(e.target.value)}
