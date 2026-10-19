@@ -23,7 +23,48 @@ type Row = {
 export default function KanjiList() {
   const [data, setData] = useState<Row[]>([]);
   const [studyDays, setStudyDays] = useState<StudyDay[]>([]);
+const [sortBy, setSortBy] = useState<"id" | "studyDay" | "kanji">("id");
+const [search, setSearch] = useState("");
   const searchParams = useSearchParams();
+
+const filteredData = data
+  .filter((row) => {
+    const query = search.trim().toLowerCase();
+
+    if (!query) return true;
+
+    const dayName =
+      studyDays.find((day) => day.id === row.study_day_id)?.name ?? "Unassigned";
+
+    return [
+      row.kanji,
+      row.meaning,
+      row.onyomi,
+      row.kunyomi,
+      row.examples,
+      dayName,
+      String(row.id),
+    ].some((value) => value.toLowerCase().includes(query));
+  })
+  .sort((a, b) => {
+    if (sortBy === "studyDay") {
+      const dayA =
+        studyDays.find((day) => day.id === a.study_day_id)?.name ?? "Unassigned";
+      const dayB =
+        studyDays.find((day) => day.id === b.study_day_id)?.name ?? "Unassigned";
+
+      const comparison = dayA.localeCompare(dayB);
+
+      return comparison !== 0 ? comparison : a.id - b.id;
+    }
+
+    if (sortBy === "kanji") {
+      return a.kanji.localeCompare(b.kanji, "ja");
+    }
+
+    return a.id - b.id;
+  });
+
   const deleted = searchParams.get("deleted");
   const fetchData = async () => {
     const { data, error } = await supabase
